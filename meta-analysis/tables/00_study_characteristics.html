@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Study Characteristics — All 15 Studies</title>
+<style>
+body { font-family: Arial, sans-serif; font-size: 0.82em; margin: 20px; }
+table { border-collapse: collapse; table-layout: fixed; width: 100%; }
+th, td { border: 1px solid #aaa; vertical-align: top; padding: 5px 8px; }
+tr:nth-child(even) td { background-color: #fafafa; }
+.group-header { background-color: #d0d0d0; font-weight: bold; text-align: center; }
+.col-header { background-color: #ebebeb; font-style: italic; }
+button#printBtn { margin-bottom: 12px; padding: 6px 12px; cursor: pointer; }
+.abbrev { margin-top: 20px; font-size: 0.9em; color: #444; border-top: 1px solid #ccc; padding-top: 8px; }
+@media print {
+  button#printBtn { display: none; }
+  body.print-mode th { background-color: white !important; font-style: italic; border-top: 1.5pt solid black; }
+  body.print-mode .group-header { border-top: 1.5pt solid black; }
+  body.print-mode td, body.print-mode th { background-color: white !important; border: 0.5pt solid black; font-size: 6.5pt; }
+}
+</style>
+<style>
+/* ════════════════════════════════════════════════════════════
+   SCREEN-MODE DESIGN ENHANCEMENTS
+   All scoped inside @media screen so printed output is
+   controlled entirely by the existing @media print rules.
+   :not(.print-mode) keeps the in-browser print-preview clean.
+   ════════════════════════════════════════════════════════════ */
+@media screen {
+
+  /* ── Page background ────────────────────────────────────── */
+  body:not(.print-mode) {
+    background: #eef1f6;
+  }
+
+  /* ── Group headers: deep navy + white text ──────────────── */
+  body:not(.print-mode) .group-header,
+  body:not(.print-mode) .group-header td,
+  body:not(.print-mode) th.group-header {
+    background: #1e3a5f !important;
+    color: #fff !important;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── Column headers: soft steel-blue ───────────────────── */
+  body:not(.print-mode) .col-header,
+  body:not(.print-mode) .col-header td,
+  body:not(.print-mode) th.col-header {
+    background: #c4d9f3 !important;
+    color: #1a3050 !important;
+    font-style: normal !important;
+    font-weight: 600 !important;
+  }
+
+  /* ── Outcome-section headers (detail pages) ─────────────── */
+  body:not(.print-mode) .outcome-header td {
+    background: #dbeafe !important;
+    color: #1e3a5f !important;
+    font-style: italic;
+  }
+
+  /* ── Even-row tint (subtler, cooler) ────────────────────── */
+  body:not(.print-mode) tbody tr:nth-child(even) td {
+    background-color: #f2f6fc;
+  }
+
+  /* ── Row hover highlight ────────────────────────────────── */
+  body:not(.print-mode) tbody tr:hover td {
+    background-color: #fffbe6 !important;
+  }
+
+  /* ── Sticky thead (stays visible while scrolling) ───────── */
+  body:not(.print-mode) thead {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+  }
+
+  /* ── Table shadow ───────────────────────────────────────── */
+  body:not(.print-mode) table {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.10);
+  }
+
+  /* ── Dose-response sub-row accent ───────────────────────── */
+  body:not(.print-mode) .dose-row td:first-child {
+    border-left: 4px solid #3182ce !important;
+  }
+
+  /* ── h2 color ───────────────────────────────────────────── */
+  body:not(.print-mode) h2 {
+    color: #1e3a5f;
+  }
+
+  /* ── Buttons ────────────────────────────────────────────── */
+  body:not(.print-mode) button#printBtn,
+  body:not(.print-mode) button.print-btn {
+    background: #2c5282;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 7px 18px;
+    cursor: pointer;
+    font-size: 0.84em;
+    transition: background 0.18s;
+    margin-bottom: 12px;
+  }
+  body:not(.print-mode) button#printBtn:hover,
+  body:not(.print-mode) button.print-btn:hover {
+    background: #2b6cb0;
+  }
+
+  body:not(.print-mode) #langBtn {
+    background: #276749;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 7px 18px;
+    cursor: pointer;
+    font-size: 0.84em;
+    transition: background 0.18s;
+    margin-left: 6px;
+    margin-bottom: 12px;
+  }
+  body:not(.print-mode) #langBtn:hover {
+    background: #2f855a;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   B&W MODE  (body.print-mode on screen)
+   Strips colors to grayscale. Layout unchanged, buttons
+   remain visible so the mode can always be toggled off.
+   ════════════════════════════════════════════════════════════ */
+@media screen {
+
+  /* Group headers: mid-gray instead of navy */
+  body.print-mode .group-header,
+  body.print-mode .group-header td,
+  body.print-mode th.group-header {
+    background: #d4d4d4 !important;
+    color: #000 !important;
+    letter-spacing: 0;
+  }
+
+  /* Col headers: light gray, italic (like printed col headers) */
+  body.print-mode .col-header,
+  body.print-mode .col-header td,
+  body.print-mode th.col-header {
+    background: #ededed !important;
+    color: #000 !important;
+    font-style: italic !important;
+    font-weight: normal !important;
+  }
+
+  /* Outcome-section headers */
+  body.print-mode .outcome-header td {
+    background: #f0f0f0 !important;
+    color: #000 !important;
+    font-style: normal !important;
+  }
+
+  /* Even rows: neutral gray tint */
+  body.print-mode tbody tr:nth-child(even) td {
+    background-color: #f5f5f5 !important;
+  }
+
+  /* No colored hover in B&W */
+  body.print-mode tbody tr:hover td {
+    background-color: inherit !important;
+  }
+
+  /* Remove table shadow */
+  body.print-mode table {
+    box-shadow: none;
+  }
+
+  /* Disable sticky thead (avoids layering issues) */
+  body.print-mode thead {
+    position: static;
+  }
+
+  /* All text black */
+  body.print-mode td,
+  body.print-mode th {
+    color: #000 !important;
+  }
+
+  body.print-mode h2 {
+    color: #000;
+  }
+
+  /* Buttons in B&W: dark gray so they're still visible */
+  body.print-mode button#printBtn,
+  body.print-mode button.print-btn {
+    background: #555 !important;
+    color: #fff !important;
+  }
+
+  body.print-mode #langBtn {
+    background: #444 !important;
+    color: #fff !important;
+  }
+}
+
+/* ── Always hide langBtn during actual printing ─────────── */
+@media print {
+  #langBtn { display: none !important; }
+}
+</style>
+</head>
+<body>
+<h2>Study Characteristics — All 15 Studies</h2>
+<button id="printBtn" onclick="document.body.classList.toggle('print-mode'); this.textContent = document.body.classList.contains('print-mode') ? 'Screen Mode' : 'Print Mode'">B&amp;W</button>
+<button id="langBtn" onclick="toggleLang()">עברית</button>
+
+<table>
+  <colgroup>
+    <col style="width:9%">
+    <col style="width:8%">
+    <col style="width:9%">
+    <col style="width:10%">
+    <col style="width:9%">
+    <col style="width:10%">
+    <col style="width:11%">
+    <col style="width:12%">
+    <col style="width:13%">
+    <col style="width:9%">
+  </colgroup>
+  <thead>
+    <tr>
+      <th colspan="3" class="group-header">Study Identity</th>
+      <th colspan="3" class="group-header">Population</th>
+      <th colspan="2" class="group-header">Methods</th>
+      <th class="group-header">Outcomes Reported</th>
+      <th class="group-header">Quality</th>
+    </tr>
+    <tr>
+      <th class="col-header">Author, Year</th>
+      <th class="col-header">Country; Source</th>
+      <th class="col-header">Design; Period</th>
+      <th class="col-header">N (RM / Control)</th>
+      <th class="col-header">RM Definition</th>
+      <th class="col-header">Control Definition</th>
+      <th class="col-header">Effect Measure; Method</th>
+      <th class="col-header">Confounders Adjusted</th>
+      <th class="col-header">Outcomes Measured</th>
+      <th class="col-header">Quality Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- 1. Thom 1992 -->
+    <tr>
+      <td><a href="papers/David_H_Thom.html">Thom, 1992</a></td>
+      <td>USA (Washington State);<br>Birth certificate registry</td>
+      <td>Retrospective cohort;<br>1984–1987</td>
+      <td>638 / 3,099<br>(Total 5,883 incl. 1-SAB group)</td>
+      <td>≥3 prior spontaneous abortions, no other prior pregnancies</td>
+      <td>Primigravid women (no prior pregnancies); randomly selected</td>
+      <td>Adjusted RR; maximum likelihood logistic regression</td>
+      <td>Maternal age, smoking; gestational length (selected outcomes)</td>
+      <td>Low birthweight, IUGR, PTB (with severity tiers), congenital malformation, placenta previa, PROM, breech, Apgar scores, preeclampsia, placental abruption</td>
+      <td>Large population-based registry; crude ORs not reported; dose-response by SAB group; SAB count from birth certificates (non-differential misclassification)</td>
+    </tr>
+    <!-- 2. Jivraj 2001 -->
+    <tr>
+      <td><a href="papers/S_Jivraj.html">Jivraj, 2001</a></td>
+      <td>UK (Sheffield);<br>RM clinic + hospital database</td>
+      <td>Retrospective cohort;<br>Jan 1992 – Jun 1998</td>
+      <td>162 / 24,699</td>
+      <td>≥3 consecutive spontaneous miscarriages</td>
+      <td>All singleton deliveries at same hospital during same period (unmatched)</td>
+      <td>Crude rates; chi-squared (no OR/RR calculated)</td>
+      <td>None</td>
+      <td>PTB, SGA, CS (overall, emergency, elective), perinatal mortality, hypertension (overall, PIH, chronic), diabetes, vaginal delivery, SCBU admission</td>
+      <td>No confounder adjustment; age difference not corrected; subgroup by primary/secondary RM; small RM cohort</td>
+    </tr>
+    <!-- 3. Sheiner 2005 -->
+    <tr>
+      <td><a href="papers/Eyal_Sheiner.html">Sheiner, 2005</a></td>
+      <td>Israel (Beer-Sheva);<br>Soroka University Medical Center perinatal database</td>
+      <td>Retrospective cohort;<br>1988–2002</td>
+      <td>7,503 / 146,791<br>(Total 154,294)</td>
+      <td>≥2 consecutive prior spontaneous abortions (ACOG 2001)</td>
+      <td>All deliveries without recurrent abortions at same hospital during same period</td>
+      <td>Crude OR (Tables 2–3); adjusted OR for CS (Mantel–Haenszel + logistic regression)</td>
+      <td>CS outcome: placenta previa, abruption, diabetes, hypertension, previous CS, malpresentation, PROM, fertility treatments</td>
+      <td>Placenta previa, abruptio placentae, severe/mild preeclampsia, chronic hypertension, IUGR, PROM, cervical incompetence, GDM, pre-gestational DM, fertility treatments, CS, malpresentation, Apgar scores, perinatal mortality, postpartum hemorrhage, thrombophilia</td>
+      <td>Very large dataset; no comprehensive multivariable adjustment for most outcomes; multivariate model identifies correlates of RM (not adjusted outcomes); thrombophilia data only 2000–2002</td>
+    </tr>
+    <!-- 4. Gunnarsdottir 2014 -->
+    <tr>
+      <td><a href="papers/Johanna_Gunnarsdottir.html">Gunnarsdottir, 2014</a></td>
+      <td>Sweden;<br>Swedish Medical Birth Register (national)</td>
+      <td>Retrospective cohort (population-based);<br>1995–2009</td>
+      <td>15,233 (≥2 mc) / 536,169<br>(Dose-response: 0, 1, 2, ≥3 mc tiers; N=619,587 primiparous)</td>
+      <td>Dose-response: 0, 1, 2, ≥3 prior miscarriages; all primiparous women</td>
+      <td>Primiparous women with 0 prior miscarriages (n=536,169)</td>
+      <td>Adjusted aOR; unconditional logistic regression</td>
+      <td>Maternal age, BMI, height, smoking, country of birth, education, IVF, chronic hypertension, pregestational diabetes, hypothyroidism, SLE, fetal sex, year of birth</td>
+      <td>Preeclampsia (overall, preterm, term), stillbirth (overall, preterm, term), SGA, placental abruption (overall, preterm, term), spontaneous PTB (overall, very preterm, moderately preterm)</td>
+      <td>Largest study (N>619k); restricted to primiparous; dose-response design; ICD-9/10 validated outcomes; self-reported miscarriage data (no GA/etiology)</td>
+    </tr>
+    <!-- 5. Fawzy 2016 -->
+    <tr>
+      <td><a href="papers/Mona_Fawzy.html">Fawzy, 2016</a></td>
+      <td>UK (Sheffield);<br>RM clinic database + obstetric database (Jessop Wing)</td>
+      <td>Retrospective case-control;<br>Jan 2001 – Jul 2007</td>
+      <td>400 / 39,860</td>
+      <td>≥3 consecutive spontaneous miscarriages before 20 weeks</td>
+      <td>All deliveries from general obstetric database at same hospital during same period</td>
+      <td>Crude OR; Mantel–Haenszel fixed-effect (RevMan)</td>
+      <td>None (subgroup analyses for primary/secondary RM, unexplained RM, fetal sex)</td>
+      <td>APH, gestational diabetes, PIH, PTB, emergency CS, SGA, intrapartum fetal distress, Apgar &lt;6 (1 min, 5 min), SCBU admission, perinatal death</td>
+      <td>No confounder adjustment; age not adjusted; follow-on to Jivraj 2001 (same centre); subgroup analyses partially address parity/etiology confounding</td>
+    </tr>
+    <!-- 6. Yang 2017 -->
+    <tr>
+      <td><a href="papers/Jing_Yang.html">Yang, 2017</a></td>
+      <td>China (Beijing);<br>Peking University Third Hospital perinatal database</td>
+      <td>Retrospective cohort;<br>Jan 2010 – Sep 2013</td>
+      <td>164 / 328<br>(1:2 ratio, randomly selected)</td>
+      <td>≥2 first-trimester spontaneous abortions; unexplained only (known causes excluded)</td>
+      <td>Women delivering at same hospital without FRSA history; randomly selected 1:2</td>
+      <td>Crude OR; adjusted OR via multivariate logistic regression (selected outcomes)</td>
+      <td>Maternal age (for PE, oligohydramnios, late abortion, CS)</td>
+      <td>CS, postpartum hemorrhage, early/late-onset PE, oligohydramnios, early/late-onset FGR, placental abruption, late abortion, PTB (&lt;37 wks), very PTB (&lt;32 wks), placenta previa, placenta accreta, placenta increta/percreta, SGA, perinatal death, neonatal asphyxia, birth defects</td>
+      <td>Small sample; unexplained FRSA only (strength); referral hospital controls also higher-risk; partial confounder adjustment</td>
+    </tr>
+    <!-- 7. Ticconi 2020 -->
+    <tr>
+      <td><a href="papers/Carlo_Ticconi.html">Ticconi, 2020</a></td>
+      <td>Italy (Rome);<br>Two university hospital RPL units + low-risk obstetric clinics</td>
+      <td>Prospective cohort;<br>Jan 2017 – Jan 2020</td>
+      <td>431 / 661<br>(Total 1,092)</td>
+      <td>≥2 pregnancy losses before 24 weeks (ESHRE 2017); includes 2-loss (48.5%) and ≥3-loss (51.5%) subgroups</td>
+      <td>Healthy women with ≥2 prior uncomplicated term pregnancies, no prior losses, low-risk; followed in same institutions</td>
+      <td>Crude OR; chi-squared; factorial analysis for age/BMI effects (Δ% method)</td>
+      <td>No formal multivariable regression; age and BMI assessed separately via factorial analysis (Δ%)</td>
+      <td>Threatened miscarriage, spontaneous miscarriage, cervical insufficiency, chromosomal abnormalities, fetal anomalies, oligohydramnios, polyhydramnios, FGR, IUFD, GDM, preeclampsia, placenta previa, abruptio placentae, pregnancy-related liver disorders, preterm PROM, multiple concomitant complications</td>
+      <td>Prospective design; dose-response by number of losses; no formal regression adjustment; control group (≥2 prior term births) inherently lower risk than general population; notable preterm PROM OR (51.4) appears unusually large</td>
+    </tr>
+    <!-- 8. Ali 2020 -->
+    <tr>
+      <td><a href="papers/Nasloon_Ali.html">Ali, 2020</a></td>
+      <td>UAE (Al Ain);<br>Mutaba'ah Mother &amp; Child Health Study (3 hospitals)</td>
+      <td>Prospective cohort (interim analysis);<br>May 2017 – Apr 2019</td>
+      <td>234 / 1,503<br>(gravidity ≥2 subset; total 1,737)</td>
+      <td>≥2 consecutive miscarriages before 20 weeks (ESHRE/ACOG/ASRM)</td>
+      <td>Women with gravidity ≥2 and no history of ≥2 consecutive miscarriages</td>
+      <td>Crude OR and aOR; univariate and multivariate logistic regression</td>
+      <td>Age, gravidity, body mass (weight), gestational age at delivery (selected outcomes)</td>
+      <td>CS, PTB (&lt;37 wks), very PTB (&lt;32 wks), preeclampsia, GDM, blood loss during delivery</td>
+      <td>Only Middle East (UAE/Emirati) study; high consanguinity (44–47%) and GDM prevalence (24–26%); interim analysis; small RM group; ART in current pregnancy unavailable</td>
+    </tr>
+    <!-- 9. Sugiura-Ogasawara 2019 -->
+    <tr>
+      <td><a href="papers/Mayumi_Sugiura_Ogasawara.html">Sugiura-Ogasawara, 2019</a></td>
+      <td>Japan;<br>JECS nationwide birth cohort (15 regional centres)</td>
+      <td>Prospective population-based birth cohort;<br>Jan 2011 – Mar 2014</td>
+      <td>1,065 (≥3 losses) / 73,413<br>(Also 3,633 with 2 losses; total in main analysis 96,212)</td>
+      <td>Dose-response: 0, 1, 2, ≥3 prior pregnancy losses (any gestational age)</td>
+      <td>Women with 0 prior pregnancy losses (n=73,413) from same cohort</td>
+      <td>OR; logistic regression with propensity score adjustment; 4 models (unadjusted, complete-case, multiple imputation, + gynecological history)</td>
+      <td>Outcome-specific propensity scores; maternal age, BMI, marital status, IVF, previous live birth, smoking, education, income, extensive medical/gynecological history</td>
+      <td>Late miscarriage/stillbirth (&gt;20 wks), early miscarriage (&lt;12 wks), pregnancy loss (any), PTB (&lt;37 and &lt;34 wks), PROM, placenta praevia, abruptio placentae, placental adhesion, HDP mild/severe, uterine infection, CS, SFD, IUFD, LBW, Apgar &lt;7 (5 min), congenital anomaly, aneuploidy, infant sex</td>
+      <td>Dose-response design; extensive MIA for missing data; propensity score adjustment; some outcomes significant only after multiple imputation; includes losses at any GA</td>
+    </tr>
+    <!-- 10. Rasmark Roepke 2021 -->
+    <tr>
+      <td><a href="papers/Emma_Rasmark_Roepke.html">Rasmark Roepke, 2021</a></td>
+      <td>Sweden;<br>Swedish Medical Birth Register (MFR) + National Patient Register (NPR)</td>
+      <td>Retrospective register-based cohort;<br>2003–2012</td>
+      <td>4,971 / 57,410<br>(Total 62,381)</td>
+      <td>≥3 consecutive miscarriages (ICD-10 N96.9 or O26.2 in NPR; Swedish/RCOG definition)</td>
+      <td>Random selection of ~5% of all Swedish childbirths during same period without RPL diagnosis</td>
+      <td>AOR; stepwise unconditional multiple logistic regression</td>
+      <td>Outcome-specific: age, BMI, smoking, parity, assisted conception, chronic hypertension, pregestational diabetes, country of birth; missing BMI imputed with mean</td>
+      <td>Preeclampsia (overall, mild/moderate, severe; preterm/term), stillbirth (overall, preterm, term), SGA (overall, preterm, term), PTB (&lt;37 wks, &lt;32 wks; spontaneous/iatrogenic), placental abruption (overall, preterm, term)</td>
+      <td>Large national register (N=62,381); PPV of RPL diagnosis 85%; subgroup: primary vs. secondary RPL vs. matched-parity controls; preterm vs. term stratification key finding</td>
+    </tr>
+    <!-- 11. Ausbeck 2021 -->
+    <tr>
+      <td><a href="papers/Elizabeth_B_Ausbeck.html">Ausbeck, 2021</a></td>
+      <td>USA (Alabama);<br>UAB Hospital perinatal database (single institution)</td>
+      <td>Retrospective cohort;<br>Jan 2008 – Dec 2017</td>
+      <td>235 / 17,435<br>(Total 17,670)</td>
+      <td>≥2 consecutive spontaneous abortions at &lt;12 weeks (ASRM); verified consecutive</td>
+      <td>Women with ≤1 prior SAB at &lt;12 weeks (includes 0 and 1 prior SAB)</td>
+      <td>Adjusted aOR; multivariable logistic regression (outcome-specific models)</td>
+      <td>Outcome-specific: prior PTB, age, race, hypertension, diabetes, parity, BMI, payment source</td>
+      <td>PTB (&lt;37 wks; primary), gestational age at delivery, GDM, SGA, hypertensive diseases, fetal demise, CS, neonatal composite (Apgar &lt;5 at 5 min, perinatal death, NICU), Apgar &lt;5 (5 min), perinatal death, NICU admission</td>
+      <td>Only significant adjusted outcome: GDM (aOR 1.69); PTB crude elevation attenuated after adjustment; strict RM definition (&lt;12 wks, consecutive verified); control includes women with 1 prior SAB</td>
+    </tr>
+    <!-- 12. Zhang 2023 -->
+    <tr>
+      <td><a href="papers/Jinwen_Zhang.html">Jinwen_Zhang, 2023</a></td>
+      <td>China (Shanghai);<br>International Peace Maternity &amp; Child Health Hospital (~16,000 births/yr)</td>
+      <td>Retrospective cohort;<br>Jan 2014 – Aug 2021</td>
+      <td>1,994 / 95,321<br>(Total 108,792)</td>
+      <td>≥2 prior miscarriages before 24 weeks (ESHRE); consecutive not required</td>
+      <td>Women with no prior miscarriage history (0 miscarriages); same institution</td>
+      <td>Adjusted aRR; log binomial regression (Poisson with robust SE when non-convergent)</td>
+      <td>Maternal age, prepregnancy BMI, marital status, insurance, parity, residence, education, ART, diabetes, chronic hypertension, hypothyroidism, APS; CS history added for placenta previa/accreta; preterm birth added for LBW</td>
+      <td>GDM, preeclampsia (overall, preterm, term), placenta previa, placenta accreta, fetal distress, emergency CS, elective CS, induction, postpartum hemorrhage, PTB (&lt;37 wks), stillbirth (≥28 wks), Apgar &lt;7 (5 min), neonatal asphyxia, congenital malformation, LBW, neonatal death</td>
+      <td>Largest and most comprehensively adjusted study (N=108,792; 12 covariates); parity effect modification formally tested; preterm vs. term PE subdivision; placenta accreta strongly associated (aRR 4.19); ICD-10 coded</td>
+    </tr>
+    <!-- 13. TC Li 2023 -->
+    <tr>
+      <td><a href="papers/TC_Li.html">TC Li, 2023</a></td>
+      <td>Hong Kong SAR, China;<br>CDARS electronic records, Prince of Wales Hospital (CUHK)</td>
+      <td>Retrospective cohort;<br>Jan 2000 – Dec 2019</td>
+      <td>3,112 / 108,012<br>(Total 111,124)</td>
+      <td>≥2 miscarriages before 24 weeks (ESHRE 2017); all underwent standardized investigation</td>
+      <td>All women without RM history delivering at same institution during same period</td>
+      <td>Crude OR and aOR; multivariable stepwise logistic regression</td>
+      <td>Maternal age, type of pregnancy (natural vs. assisted conception), gestational age at booking</td>
+      <td>Gestational hypertension, preeclampsia, eclampsia, APH, gestational diabetes, operative vaginal delivery, CS, PTB, SGA, LGA, Apgar &lt;7 (1 min, 5 min), NICU admission, perinatal death, congenital anomalies</td>
+      <td>Abridged conference supplement; large 20-yr dataset; limited confounder adjustment (3 variables only); ICD-9-CM coded; 4 significant adjusted outcomes: CS, PTB, SGA, perinatal death</td>
+    </tr>
+    <!-- 14. Hautamäki 2025 -->
+    <tr>
+      <td><a href="papers/Hanna_Hautamaki.html">Hautamäki, 2025</a></td>
+      <td>Finland (Helsinki);<br>Helsinki University Hospital records + Finnish Medical Birth Register (MBR)</td>
+      <td>Retrospective case-control (1:4 matched);<br>RPL exams 2007–2016; follow-up to Dec 2019</td>
+      <td>360 / 1,440<br>(Total 1,800; 1:4 matched)</td>
+      <td>≥2 losses (ESHRE); in practice ≥3 consecutive first-trimester losses OR ≥2 losses with ≥1 in second trimester (12+1–21+6 wks) if age &lt;42</td>
+      <td>4 controls per case matched from MBR for age, parity, delivery year/month/hospital</td>
+      <td>RR (risk ratio); logistic regression for GDM (BMI-adjusted OR)</td>
+      <td>BMI adjustment for GDM only; all others unadjusted RRs; confounding controlled by matching</td>
+      <td>Gestational hypertension (O13), preeclampsia (O14), GDM (O24.4), PTB (&lt;37 wks), malpresentation, PROM, placental problems composite (O43/44/45 + manual removal), manual removal of placenta, placenta previa (O44), placental abruption (O45), postpartum hemorrhage, induced labor, birthweight &lt;2500 g, mean birthweight, SGA, umbilical artery pH &lt;7.10, neonatal composite, prematurity composite, P02/P07 diagnoses, Apgar 5 min, NICU, perinatal death, cervical incompetence</td>
+      <td>Matched case-control (1:4); most recent study (accepted Dec 2024); BMI similar between groups; GDM lost significance after BMI adjustment; gestational hypertension (not PE) significant; rare outcomes suppressed (&lt;5 cases) by Finnish data protection rules</td>
+    </tr>
+    <!-- 15. Murphy & Field 2015 -->
+    <tr>
+      <td><a href="papers/Murphy_and_Field.html">Field &amp; Murphy, 2015</a></td>
+      <td>Ireland (Dublin);<br>Coombe Women &amp; Infants University Hospital electronic records</td>
+      <td>Retrospective cohort;<br>Jan 2008 – Jul 2011</td>
+      <td>2,030 / 28,023<br>(Total 30,053)</td>
+      <td>≥3 miscarriages (not required to be consecutive, except primary RM subgroup)</td>
+      <td>Women without ≥3 miscarriages (includes women with 0, 1, or 2 prior miscarriages) at same hospital during same period</td>
+      <td>Crude OR and aOR; multivariable stepwise logistic regression</td>
+      <td>Maternal age, BMI, marital status, socio-economic group, parity, smoking, medical disorders, psychiatric disorders, assisted conception, previous perinatal death</td>
+      <td>PTB (&lt;37 and &lt;32 wks), SGA (individualized birthweight ratios), perinatal death, Apgar &lt;7 (5 min), NICU admission, congenital abnormality, PE/PIH, placenta praevia, abruption/APH, scheduled CS, emergency CS, mean gestational age and birthweight, spontaneous PTB, vaginal delivery</td>
+      <td>Large Irish hospital cohort (N=30,053); comprehensive confounder adjustment; comparison group includes women with ≤2 mc (dilutes effect size); individualized SGA definition explains non-significant SGA; adjusted perinatal death OR (2.66) exceeds crude (2.26)</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="abbrev"><strong>Abbreviations:</strong> aOR = adjusted odds ratio; aRR = adjusted relative risk; aHR = adjusted hazard ratio; ART = assisted reproductive technology; BMI = body mass index; CI = confidence interval; IUGR = intrauterine growth restriction; NR = not reported; OR = odds ratio; PTB = preterm birth; RM = recurrent miscarriage; RR = relative risk (or rate ratio); SGA = small for gestational age; wks = weeks</div>
+<script>
+(function () {
+  var T = {
+  "RM Meta-Analysis \u2014 Table Index": "\u05de\u05d8\u05d0-\u05d0\u05e0\u05dc\u05d9\u05d6\u05d4: \u05d4\u05e4\u05dc\u05d5\u05ea \u05d7\u05d5\u05d6\u05e8\u05d5\u05ea \u2014 \u05d0\u05d9\u05e0\u05d3\u05e7\u05e1",
+  "Layer 1 \u2014 Study Characteristics": "\u05e9\u05db\u05d1\u05d4 1 \u2014 \u05de\u05d0\u05e4\u05d9\u05d9\u05e0\u05d9 \u05d4\u05de\u05d7\u05e7\u05e8\u05d9\u05dd",
+  "Layer 2 \u2014 Outcome-Specific Tables": "\u05e9\u05db\u05d1\u05d4 2 \u2014 \u05d8\u05d1\u05dc\u05d0\u05d5\u05ea \u05dc\u05e4\u05d9 \u05ea\u05d5\u05e6\u05d0\u05d4",
+  "Layer 3 \u2014 Per-Paper Detail Pages": "\u05e9\u05db\u05d1\u05d4 3 \u2014 \u05d3\u05e4\u05d9 \u05e4\u05d9\u05e8\u05d5\u05d8 \u05dc\u05db\u05dc \u05de\u05d7\u05e7\u05e8",
+  "This index provides access to all data extraction tables for the meta-analysis examining placental complications in women with recurrent miscarriage (RM). Click any link to view the corresponding table. Outcome-specific tables include only papers that reported the relevant outcome; papers where the outcome was not measured or not reported are omitted from each table.": "\u05d0\u05d9\u05e0\u05d3\u05e7\u05e1 \u05d6\u05d4 \u05de\u05e1\u05e4\u05e7 \u05d2\u05d9\u05e9\u05d4 \u05dc\u05db\u05dc \u05d8\u05d1\u05dc\u05d0\u05d5\u05ea \u05d7\u05d9\u05dc\u05d5\u05e5 \u05d4\u05e0\u05ea\u05d5\u05e0\u05d9\u05dd \u05e2\u05d1\u05d5\u05e8 \u05d4\u05de\u05d8\u05d0-\u05d0\u05e0\u05dc\u05d9\u05d6\u05d4 \u05d4\u05d1\u05d5\u05d7\u05e0\u05ea \u05e1\u05d9\u05d1\u05d5\u05db\u05d9\u05dd \u05e9\u05d9\u05dc\u05d9\u05ea\u05d9\u05d9\u05dd \u05d1\u05e0\u05e9\u05d9\u05dd \u05e2\u05dd \u05d4\u05e4\u05dc\u05d5\u05ea \u05d7\u05d5\u05d6\u05e8\u05d5\u05ea (\u05d4\u05e4\"\u05d7). \u05dc\u05d7\u05e6\u05d5 \u05e2\u05dc \u05db\u05dc \u05e7\u05d9\u05e9\u05d5\u05e8 \u05dc\u05e6\u05e4\u05d9\u05d9\u05d4 \u05d1\u05d8\u05d1\u05dc\u05d4 \u05d4\u05de\u05ea\u05d0\u05d9\u05de\u05d4. \u05d4\u05d8\u05d1\u05dc\u05d0\u05d5\u05ea \u05d4\u05e1\u05e4\u05e6\u05d9\u05e4\u05d9\u05d5\u05ea \u05dc\u05ea\u05d5\u05e6\u05d0\u05d5\u05ea \u05db\u05d5\u05dc\u05dc\u05d5\u05ea \u05e8\u05e7 \u05de\u05d7\u05e7\u05e8\u05d9\u05dd \u05e9\u05d3\u05d9\u05d5\u05d5\u05d7\u05d5 \u05e2\u05dc \u05d4\u05ea\u05d5\u05e6\u05d0\u05d4 \u05d4\u05e8\u05dc\u05d5\u05d5\u05e0\u05d8\u05d9\u05ea; \u05de\u05d7\u05e7\u05e8\u05d9\u05dd \u05e9\u05d1\u05d4\u05dd \u05d4\u05ea\u05d5\u05e6\u05d0\u05d4 \u05dc\u05d0 \u05e0\u05de\u05d3\u05d3\u05d4 \u05d0\u05d5 \u05dc\u05d0 \u05d3\u05d5\u05d5\u05d7\u05d4 \u05d0\u05d9\u05e0\u05dd \u05db\u05dc\u05d5\u05dc\u05d9\u05dd.",
+  "Overview": "\u05e1\u05e7\u05d9\u05e8\u05d4",
+  "Hypertensive / Placental Outcomes": "\u05ea\u05d5\u05e6\u05d0\u05d5\u05ea \u05d9\u05ea\u05e8 \u05dc\"\u05d3 / \u05e9\u05dc\u05d9\u05d4",
+  "Perinatal Outcomes": "\u05ea\u05d5\u05e6\u05d0\u05d5\u05ea \u05e1\u05d1-\u05dc\u05d9\u05d3\u05ea\u05d9\u05d5\u05ea",
+  "Delivery Outcomes": "\u05ea\u05d5\u05e6\u05d0\u05d5\u05ea \u05dc\u05d9\u05d3\u05d4",
+  "Individual Study Pages": "\u05d3\u05e4\u05d9 \u05de\u05d7\u05e7\u05e8 \u05d1\u05d5\u05d3\u05d3\u05d9\u05dd",
+  "Study Characteristics (all 15 papers)": "\u05de\u05d0\u05e4\u05d9\u05d9\u05e0\u05d9 \u05d4\u05de\u05d7\u05e7\u05e8\u05d9\u05dd (\u05db\u05dc 15 \u05d4\u05de\u05d7\u05e7\u05e8\u05d9\u05dd)",
+  "Preeclampsia \u2014 All (any / overall)": "\u05e8\u05e2\u05dc\u05ea \u05d4\u05e8\u05d9\u05d5\u05df \u2014 \u05db\u05dc \u05d4\u05e1\u05d5\u05d2\u05d9\u05dd",
+  "Preeclampsia \u2014 Preterm onset (<37 wks)": "\u05e8\u05e2\u05dc\u05ea \u05d4\u05e8\u05d9\u05d5\u05df \u2014 \u05ea\u05d7\u05d9\u05dc\u05d4 \u05de\u05d5\u05e7\u05d3\u05de\u05ea (<37 \u05e9\u05d1\u05f3)",
+  "Preterm Birth \u2014 All (<37 wks)": "\u05dc\u05d9\u05d3\u05d4 \u05de\u05d5\u05e7\u05d3\u05de\u05ea \u2014 \u05db\u05dc \u05d4\u05e1\u05d5\u05d2\u05d9\u05dd (<37 \u05e9\u05d1\u05f3)",
+  "Very Preterm Birth (<32 wks)": "\u05dc\u05d9\u05d3\u05d4 \u05de\u05d5\u05e7\u05d3\u05de\u05ea \u05de\u05d0\u05d5\u05d3 (<32 \u05e9\u05d1\u05f3)",
+  "Study Characteristics \u2014 All 15 Studies": "\u05de\u05d0\u05e4\u05d9\u05d9\u05e0\u05d9 \u05d4\u05de\u05d7\u05e7\u05e8\u05d9\u05dd \u2014 \u05db\u05dc 15 \u05d4\u05de\u05d7\u05e7\u05e8\u05d9\u05dd",
+  "Preeclampsia \u2014 Any / Overall": "\u05e8\u05e2\u05dc\u05ea \u05d4\u05e8\u05d9\u05d5\u05df \u2014 \u05db\u05dc \u05d4\u05e1\u05d5\u05d2\u05d9\u05dd / \u05db\u05d5\u05dc\u05dc",
+  "Preeclampsia \u2014 Preterm Onset (<37 wks)": "\u05e8\u05e2\u05dc\u05ea \u05d4\u05e8\u05d9\u05d5\u05df \u2014 \u05ea\u05d7\u05d9\u05dc\u05d4 \u05de\u05d5\u05e7\u05d3\u05de\u05ea (<37 \u05e9\u05d1\u05f3)",
+  "Gestational Hypertension": "\u05d9\u05ea\u05e8 \u05dc\u05d7\u05e5 \u05d3\u05dd \u05d4\u05e8\u05d9\u05d5\u05e0\u05d9",
+  "Placental Abruption": "\u05d4\u05d9\u05e4\u05e8\u05d3\u05d5\u05ea \u05e9\u05dc\u05d9\u05d4",
+  "Placenta Previa": "\u05e9\u05dc\u05d9\u05d4 \u05e7\u05d3\u05de\u05d9\u05ea",
+  "Preterm Birth \u2014 All (<37 weeks)": "\u05dc\u05d9\u05d3\u05d4 \u05de\u05d5\u05e7\u05d3\u05de\u05ea \u2014 \u05db\u05dc \u05d4\u05e1\u05d5\u05d2\u05d9\u05dd (<37 \u05e9\u05d1\u05f3)",
+  "Very Preterm Birth / Severe PTB (<32 or <34 weeks)": "\u05dc\u05d9\u05d3\u05d4 \u05de\u05d5\u05e7\u05d3\u05de\u05ea \u05de\u05d0\u05d5\u05d3 (<32 \u05d0\u05d5 <34 \u05e9\u05d1\u05f3)",
+  "SGA / IUGR / FGR": "SGA / IUGR / FGR",
+  "Stillbirth / IUFD / Perinatal Death": "\u05de\u05d5\u05ea \u05e2\u05d5\u05d1\u05e8 / IUFD / \u05de\u05d5\u05d5\u05ea \u05e1\u05d1-\u05dc\u05d9\u05d3\u05ea\u05d9",
+  "Cesarean Section": "\u05e0\u05d9\u05ea\u05d5\u05d7 \u05e7\u05d9\u05e1\u05e8\u05d9",
+  "Postpartum / Antepartum Hemorrhage": "\u05d3\u05d9\u05de\u05d5\u05dd \u05dc\u05d0\u05d7\u05e8 / \u05dc\u05e4\u05e0\u05d9 \u05d4\u05dc\u05d9\u05d3\u05d4",
+  "Study": "\u05de\u05d7\u05e7\u05e8",
+  "Crude Result": "\u05ea\u05d5\u05e6\u05d0\u05d4 \u05d2\u05d5\u05dc\u05de\u05d9\u05ea",
+  "Adjusted Result": "\u05ea\u05d5\u05e6\u05d0\u05d4 \u05de\u05ea\u05d5\u05e7\u05e0\u05ea",
+  "Notes": "\u05d4\u05e2\u05e8\u05d5\u05ea",
+  "Study Identity": "\u05d6\u05d9\u05d4\u05d5\u05d9 \u05d4\u05de\u05d7\u05e7\u05e8",
+  "Population": "\u05d0\u05d5\u05db\u05dc\u05d5\u05e1\u05d9\u05d9\u05d4",
+  "Methods": "\u05e9\u05d9\u05d8\u05d5\u05ea",
+  "Outcomes Reported": "\u05ea\u05d5\u05e6\u05d0\u05d5\u05ea \u05e9\u05d3\u05d5\u05d5\u05d7\u05d5",
+  "Quality": "\u05d0\u05d9\u05db\u05d5\u05ea",
+  "Study Characteristics": "\u05de\u05d0\u05e4\u05d9\u05d9\u05e0\u05d9 \u05d4\u05de\u05d7\u05e7\u05e8",
+  "Exposure & Control Definition": "\u05d4\u05d2\u05d3\u05e8\u05ea \u05d7\u05e9\u05d9\u05e4\u05d4 \u05d5\u05d1\u05e7\u05e8\u05d4",
+  "Outcomes & Methods": "\u05ea\u05d5\u05e6\u05d0\u05d5\u05ea \u05d5\u05e9\u05d9\u05d8\u05d5\u05ea",
+  "Results by Outcome": "\u05ea\u05d5\u05e6\u05d0\u05d5\u05ea \u05dc\u05e4\u05d9 \u05e4\u05dc\u05d8",
+  "Quality Notes": "\u05d4\u05e2\u05e8\u05d5\u05ea \u05d0\u05d9\u05db\u05d5\u05ea",
+  "Group A: Study Characteristics": "\u05e7\u05d1\u05d5\u05e6\u05d4 \u05d0\u05f3: \u05de\u05d0\u05e4\u05d9\u05d9\u05e0\u05d9 \u05d4\u05de\u05d7\u05e7\u05e8",
+  "Group B: Population": "\u05e7\u05d1\u05d5\u05e6\u05d4 \u05d1\u05f3: \u05d0\u05d5\u05db\u05dc\u05d5\u05e1\u05d9\u05d9\u05d4",
+  "Group C: Exposure & Control Definition": "\u05e7\u05d1\u05d5\u05e6\u05d4 \u05d2\u05f3: \u05d4\u05d2\u05d3\u05e8\u05ea \u05d7\u05e9\u05d9\u05e4\u05d4 \u05d5\u05d1\u05e7\u05e8\u05d4",
+  "Group D: Outcomes & Methods": "\u05e7\u05d1\u05d5\u05e6\u05d4 \u05d3\u05f3: \u05ea\u05d5\u05e6\u05d0\u05d5\u05ea \u05d5\u05e9\u05d9\u05d8\u05d5\u05ea",
+  "Group E: Results": "\u05e7\u05d1\u05d5\u05e6\u05d4 \u05d4\u05f3: \u05ea\u05d5\u05e6\u05d0\u05d5\u05ea",
+  "Group F: Quality Notes": "\u05e7\u05d1\u05d5\u05e6\u05d4 \u05d5\u05f3: \u05d4\u05e2\u05e8\u05d5\u05ea \u05d0\u05d9\u05db\u05d5\u05ea",
+  "Author, Year": "\u05de\u05d7\u05d1\u05e8, \u05e9\u05e0\u05d4",
+  "N (RM / Control)": "\u05de\u05e1\u05e4\u05e8 (\u05d4\u05e4\"\u05d7 / \u05d1\u05d9\u05e7\u05d5\u05e8\u05ea)",
+  "RM Definition": "\u05d4\u05d2\u05d3\u05e8\u05ea \u05d4\u05e4\"\u05d7",
+  "RM Group (n/N, %)": "\u05e7\u05d1\u05d5\u05e6\u05ea \u05d4\u05e4\"\u05d7 (n/N, %)",
+  "Control (n/N, %)": "\u05d1\u05d9\u05e7\u05d5\u05e8\u05ea (n/N, %)",
+  "Crude OR/RR (95% CI)": "OR/RR \u05d2\u05d5\u05dc\u05de\u05d9 (95% CI)",
+  "Adjusted aOR/aRR (95% CI)": "aOR/aRR \u05de\u05ea\u05d5\u05e7\u05df (95% CI)",
+  "Confounders Adjusted": "\u05d2\u05d5\u05e8\u05de\u05d9\u05dd \u05de\u05d1\u05dc\u05d1\u05dc\u05d9\u05dd \u05e9\u05ea\u05d5\u05e7\u05e0\u05e0\u05d5",
+  "Subgroup / Notes": "\u05ea\u05ea-\u05e7\u05d1\u05d5\u05e6\u05d4 / \u05d4\u05e2\u05e8\u05d5\u05ea",
+  "Country; Source": "\u05de\u05d3\u05d9\u05e0\u05d4; \u05de\u05e7\u05d5\u05e8",
+  "Design; Period": "\u05e2\u05d9\u05e6\u05d5\u05d1; \u05ea\u05e7\u05d5\u05e4\u05d4",
+  "Control Definition": "\u05d4\u05d2\u05d3\u05e8\u05ea \u05e7\u05d1\u05d5\u05e6\u05ea \u05d1\u05d9\u05e7\u05d5\u05e8\u05ea",
+  "Effect Measure; Method": "\u05de\u05d3\u05d3 \u05d0\u05e4\u05e7\u05d8; \u05e9\u05d9\u05d8\u05d4",
+  "Outcomes Measured": "\u05ea\u05d5\u05e6\u05d0\u05d5\u05ea \u05e9\u05e0\u05de\u05d3\u05d3\u05d5",
+  "Field": "\u05e9\u05d3\u05d4",
+  "Value": "\u05e2\u05e8\u05da",
+  "Authors": "\u05de\u05d7\u05d1\u05e8\u05d9\u05dd",
+  "Year": "\u05e9\u05e0\u05d4",
+  "Journal": "\u05db\u05ea\u05d1 \u05e2\u05ea",
+  "Country": "\u05de\u05d3\u05d9\u05e0\u05d4",
+  "Data source": "\u05de\u05e7\u05d5\u05e8 \u05e0\u05ea\u05d5\u05e0\u05d9\u05dd",
+  "Study design": "\u05e2\u05d9\u05e6\u05d5\u05d1 \u05d4\u05de\u05d7\u05e7\u05e8",
+  "Study period": "\u05ea\u05e7\u05d5\u05e4\u05ea \u05d4\u05de\u05d7\u05e7\u05e8",
+  "Total N": "\u05e1\u05d4\"\u05db \u05e0",
+  "N RM group": "\u05e0 \u05e7\u05d1\u05d5\u05e6\u05ea \u05d4\u05e4\"\u05d7",
+  "N control group": "\u05e0 \u05e7\u05d1\u05d5\u05e6\u05ea \u05d1\u05d9\u05e7\u05d5\u05e8\u05ea",
+  "Inclusion criteria": "\u05e7\u05e8\u05d9\u05d8\u05e8\u05d9\u05d5\u05e0\u05d9 \u05d4\u05db\u05dc\u05d4",
+  "Exclusion criteria": "\u05e7\u05e8\u05d9\u05d8\u05e8\u05d9\u05d5\u05e0\u05d9 \u05d0\u05d9-\u05d4\u05db\u05dc\u05d4",
+  "Maternal age (RM)": "\u05d2\u05d9\u05dc \u05d0\u05de\u05d4\u05d5\u05ea\u05d9 (\u05d4\u05e4\"\u05d7)",
+  "Maternal age (control)": "\u05d2\u05d9\u05dc \u05d0\u05de\u05d4\u05d5\u05ea\u05d9 (\u05d1\u05d9\u05e7\u05d5\u05e8\u05ea)",
+  "BMI (RM)": "BMI (\u05d4\u05e4\"\u05d7)",
+  "BMI (control)": "BMI (\u05d1\u05d9\u05e7\u05d5\u05e8\u05ea)",
+  "Parity": "\u05e4\u05e8\u05d9\u05d5\u05df",
+  "ART/IVF rate": "\u05e9\u05d9\u05e2\u05d5\u05e8 ART/IVF",
+  "Smoking": "\u05e2\u05d9\u05e9\u05d5\u05df",
+  "RM threshold": "\u05e1\u05e3 \u05d4\u05e4\"\u05d7",
+  "Type of losses": "\u05e1\u05d5\u05d2 \u05d4\u05d4\u05e4\u05dc\u05d5\u05ea",
+  "GA cutoff for miscarriage": "\u05d2\u05d1\u05d5\u05dc \u05d2\u05d9\u05dc \u05d4\u05e8\u05d9\u05d5\u05df \u05dc\u05d4\u05e4\u05dc\u05d4",
+  "Dose-response analysis": "\u05e0\u05d9\u05ea\u05d5\u05d7 \u05de\u05d9\u05e0\u05d5\u05df-\u05ea\u05d2\u05d5\u05d1\u05d4",
+  "Control group definition": "\u05d4\u05d2\u05d3\u05e8\u05ea \u05e7\u05d1\u05d5\u05e6\u05ea \u05d1\u05d9\u05e7\u05d5\u05e8\u05ea",
+  "All outcomes measured": "\u05db\u05dc \u05d4\u05ea\u05d5\u05e6\u05d0\u05d5\u05ea \u05e9\u05e0\u05de\u05d3\u05d3\u05d5",
+  "Effect measure": "\u05de\u05d3\u05d3 \u05d0\u05e4\u05e7\u05d8",
+  "Statistical method": "\u05e9\u05d9\u05d8\u05d4 \u05e1\u05d8\u05d8\u05d9\u05e1\u05d8\u05d9\u05ea",
+  "Confounders adjusted": "\u05d2\u05d5\u05e8\u05de\u05d9\u05dd \u05de\u05d1\u05dc\u05d1\u05dc\u05d9\u05dd \u05e9\u05ea\u05d5\u05e7\u05e0\u05e0\u05d5",
+  "Data source quality": "\u05d0\u05d9\u05db\u05d5\u05ea \u05de\u05e7\u05d5\u05e8 \u05d4\u05e0\u05ea\u05d5\u05e0\u05d9\u05dd",
+  "Confounder adjustment": "\u05ea\u05d9\u05e7\u05d5\u05df \u05d2\u05d5\u05e8\u05de\u05d9\u05dd \u05de\u05d1\u05dc\u05d1\u05dc\u05d9\u05dd",
+  "Outcome validation": "\u05d0\u05d9\u05de\u05d5\u05ea \u05ea\u05d5\u05e6\u05d0\u05d5\u05ea",
+  "Bias acknowledged": "\u05d4\u05d8\u05d9\u05d4 \u05e9\u05d4\u05d5\u05db\u05e8\u05d4",
+  "Other notes": "\u05d4\u05e2\u05e8\u05d5\u05ea \u05e0\u05d5\u05e1\u05e4\u05d5\u05ea",
+  "RM group (n/N, %)": "\u05e7\u05d1\u05d5\u05e6\u05ea \u05d4\u05e4\"\u05d7 (n/N, %)",
+  "Control group (n/N, %)": "\u05e7\u05d1\u05d5\u05e6\u05ea \u05d1\u05d9\u05e7\u05d5\u05e8\u05ea (n/N, %)",
+  "Crude OR (95% CI)": "OR \u05d2\u05d5\u05dc\u05de\u05d9 (95% CI)",
+  "p-value": "\u05e2\u05e8\u05da-p",
+  "Subgroup/notes": "\u05ea\u05ea-\u05e7\u05d1\u05d5\u05e6\u05d4/\u05d4\u05e2\u05e8\u05d5\u05ea",
+  "Maternal age RM group": "\u05d2\u05d9\u05dc \u05d0\u05de\u05d4\u05d5\u05ea\u05d9 \u05e7\u05d1\u05d5\u05e6\u05ea \u05d4\u05e4\"\u05d7",
+  "Maternal age control": "\u05d2\u05d9\u05dc \u05d0\u05de\u05d4\u05d5\u05ea\u05d9 \u05d1\u05d9\u05e7\u05d5\u05e8\u05ea",
+  "BMI RM group": "BMI \u05e7\u05d1\u05d5\u05e6\u05ea \u05d4\u05e4\"\u05d7",
+  "BMI control": "BMI \u05d1\u05d9\u05e7\u05d5\u05e8\u05ea",
+  "Gestational age cutoff": "\u05d2\u05d1\u05d5\u05dc \u05d2\u05d9\u05dc \u05d4\u05e8\u05d9\u05d5\u05df",
+  "Dose-response": "\u05de\u05d9\u05e0\u05d5\u05df-\u05ea\u05d2\u05d5\u05d1\u05d4",
+  "Control group": "\u05e7\u05d1\u05d5\u05e6\u05ea \u05d1\u05d9\u05e7\u05d5\u05e8\u05ea",
+  "Outcomes measured": "\u05ea\u05d5\u05e6\u05d0\u05d5\u05ea \u05e9\u05e0\u05de\u05d3\u05d3\u05d5",
+  "RM group": "\u05e7\u05d1\u05d5\u05e6\u05ea \u05d4\u05e4\"\u05d7",
+  "Adjusted aOR (95% CI)": "aOR \u05de\u05ea\u05d5\u05e7\u05df (95% CI)",
+  "\u2190 Back to Index": "\u2190 \u05d7\u05d6\u05e8\u05d4 \u05dc\u05d0\u05d9\u05e0\u05d3\u05e7\u05e1",
+  "\u2190 Back to index": "\u2190 \u05d7\u05d6\u05e8\u05d4 \u05dc\u05d0\u05d9\u05e0\u05d3\u05e7\u05e1",
+  "B\u0026W": "\u05e9\u05d7/\u05dc",
+  "Abbreviations:": "\u05e7\u05d9\u05e6\u05d5\u05e8\u05d9\u05dd:",
+};
+
+  function markEl(el) {
+    var txt = (el.textContent || '').trim();
+    if (Object.prototype.hasOwnProperty.call(T, txt)) {
+      el.setAttribute('data-en', el.innerHTML);
+      el.setAttribute('data-he', T[txt]);
+    }
+  }
+
+  function mark() {
+    // .group-header: may be th/td (standard pages) or tr (Group-X pages)
+    document.querySelectorAll('.group-header').forEach(function (el) {
+      if (el.tagName === 'TR') {
+        [].forEach.call(el.children, markEl);
+      } else {
+        markEl(el);
+      }
+    });
+
+    // .col-header: may be th (standard pages) or tr (Group-X pages)
+    document.querySelectorAll('.col-header').forEach(function (el) {
+      if (el.tagName === 'TR') {
+        [].forEach.call(el.children, markEl);
+      } else {
+        markEl(el);
+      }
+    });
+
+    // Headings
+    document.querySelectorAll('h1, h2').forEach(markEl);
+
+    // First-child tds without colspan — field labels in detail pages
+    document.querySelectorAll('td:first-child:not([colspan])').forEach(markEl);
+
+    // Anchor links — back-to-index and Layer-2 index links
+    document.querySelectorAll('a').forEach(markEl);
+
+    // Layer labels (index page)
+    document.querySelectorAll('.layer-label').forEach(markEl);
+
+    // Intro paragraph (index page)
+    document.querySelectorAll('p.intro').forEach(markEl);
+
+    // Abbreviations label
+    document.querySelectorAll('.abbrev strong').forEach(markEl);
+
+    // Toggle-print buttons (Group-X format pages)
+    document.querySelectorAll('button.print-btn').forEach(markEl);
+  }
+
+  function toggleLang() {
+    var isHe = document.body.dir === 'rtl';
+    var newLang = isHe ? 'en' : 'he';
+
+    document.querySelectorAll('[data-en]').forEach(function (el) {
+      el.innerHTML = newLang === 'he' ? el.getAttribute('data-he') : el.getAttribute('data-en');
+    });
+
+    document.body.dir = newLang === 'he' ? 'rtl' : 'ltr';
+
+    var langBtn = document.getElementById('langBtn');
+    if (langBtn) langBtn.textContent = newLang === 'he' ? 'English' : 'עברית';
+
+    // Keep id="printBtn" text in sync (its onclick also updates text)
+    var printBtn = document.getElementById('printBtn');
+    if (printBtn) {
+      var isPrint = document.body.classList.contains('print-mode');
+      printBtn.textContent = isPrint
+        ? (newLang === 'he' ? 'צבעוני' : 'Color')
+        : (newLang === 'he' ? 'שח/ל' : 'B&W');
+    }
+
+    // Sync button.print-btn text too
+    document.querySelectorAll('button.print-btn').forEach(function (btn) {
+      var isPrintBW = document.body.classList.contains('print-mode');
+      btn.textContent = isPrintBW
+        ? (newLang === 'he' ? '\u05e6\u05d1\u05e2\u05d5\u05e0\u05d9' : 'Color')
+        : (newLang === 'he' ? '\u05e9\u05d7/\u05dc' : 'B\u0026W');
+    });
+
+    localStorage.setItem('lang', newLang);
+  }
+
+  // Override print-mode buttons to be language-aware and show B&W / Color
+  function setupPrintBtn() {
+    function applyToggle(btn) {
+      btn.onclick = function () {
+        document.body.classList.toggle('print-mode');
+        var isPrint = document.body.classList.contains('print-mode');
+        var isHe = document.body.dir === 'rtl';
+        this.textContent = isPrint
+          ? (isHe ? 'צבעוני' : 'Color')
+          : (isHe ? 'שח/ל' : 'B&W');
+      };
+    }
+    var btn = document.getElementById('printBtn');
+    if (btn) applyToggle(btn);
+    document.querySelectorAll('button.print-btn').forEach(applyToggle);
+  }
+
+  window.toggleLang = toggleLang;
+
+  document.addEventListener('DOMContentLoaded', function () {
+    mark();
+    setupPrintBtn();
+    if (localStorage.getItem('lang') === 'he') toggleLang();
+  });
+})();
+</script>
+</body>
+</html>

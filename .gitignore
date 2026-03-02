@@ -1,0 +1,12 @@
+# Intermediate PDF extraction aids
+*.raw.txt
+*.layout.txt
+*.bbox.html
+*.txt
+*.png
+
+# Temp page images from PDF extraction
+.tmp_mona_pages/
+
+# macOS
+.DS_Store

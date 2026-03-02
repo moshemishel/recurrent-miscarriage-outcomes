@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sugiura-Ogasawara 2019 — Detail</title>
+<style>
+  body { font-family: Arial, sans-serif; font-size: 0.82em; margin: 20px; color: #111; }
+  h2 { font-size: 1.1em; margin-bottom: 4px; }
+  .meta { color: #555; font-size: 0.9em; margin-bottom: 16px; }
+  table { border-collapse: collapse; table-layout: fixed; width: 100%; margin-bottom: 24px; }
+  th, td { border: 1px solid #bbb; padding: 5px 8px; vertical-align: top; }
+  th { background-color: #d0d0d0; text-align: left; }
+  .group-header td { background-color: #d0d0d0; font-weight: bold; font-size: 1.0em; padding: 6px 8px; }
+  .col-header td { background-color: #ebebeb; font-style: italic; }
+  .outcome-header td { background-color: #f5f5f5; font-weight: bold; padding: 5px 8px 5px 15px; }
+  .tier-header td { background-color: #fafafa; font-style: italic; padding: 4px 8px 4px 25px; }
+  td.field { width: 30%; font-weight: bold; }
+  td.value { width: 70%; }
+  .nav { margin-bottom: 16px; }
+  .nav a { text-decoration: none; color: #1a5fa8; }
+  .nav a:hover { text-decoration: underline; }
+  button.print-btn { margin-bottom: 16px; padding: 5px 14px; font-size: 0.9em; cursor: pointer; }
+  .abbrev { border-top: 1px solid #ccc; margin-top: 24px; padding-top: 8px; font-size: 0.8em; color: #444; }
+  @media print {
+    body.print-mode { font-size: 7pt; margin: 10mm; }
+    body.print-mode button.print-btn { display: none; }
+    body.print-mode th, body.print-mode td { background-color: white !important; border: 0.5pt solid black; font-size: 6.5pt; padding: 2px 4px; }
+    body.print-mode .group-header td { background-color: #eee !important; font-weight: bold; }
+    body.print-mode .outcome-header td { background-color: #f5f5f5 !important; }
+    body.print-mode .tier-header td { background-color: white !important; }
+  }
+</style>
+<script>
+  function togglePrint() {
+    document.body.classList.toggle('print-mode');
+  }
+</script>
+<style>
+/* ════════════════════════════════════════════════════════════
+   SCREEN-MODE DESIGN ENHANCEMENTS
+   All scoped inside @media screen so printed output is
+   controlled entirely by the existing @media print rules.
+   :not(.print-mode) keeps the in-browser print-preview clean.
+   ════════════════════════════════════════════════════════════ */
+@media screen {
+
+  /* ── Page background ────────────────────────────────────── */
+  body:not(.print-mode) {
+    background: #eef1f6;
+  }
+
+  /* ── Group headers: deep navy + white text ──────────────── */
+  body:not(.print-mode) .group-header,
+  body:not(.print-mode) .group-header td,
+  body:not(.print-mode) th.group-header {
+    background: #1e3a5f !important;
+    color: #fff !important;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── Column headers: soft steel-blue ───────────────────── */
+  body:not(.print-mode) .col-header,
+  body:not(.print-mode) .col-header td,
+  body:not(.print-mode) th.col-header {
+    background: #c4d9f3 !important;
+    color: #1a3050 !important;
+    font-style: normal !important;
+    font-weight: 600 !important;
+  }
+
+  /* ── Outcome-section headers (detail pages) ─────────────── */
+  body:not(.print-mode) .outcome-header td {
+    background: #dbeafe !important;
+    color: #1e3a5f !important;
+    font-style: italic;
+  }
+
+  /* ── Even-row tint (subtler, cooler) ────────────────────── */
+  body:not(.print-mode) tbody tr:nth-child(even) td {
+    background-color: #f2f6fc;
+  }
+
+  /* ── Row hover highlight ────────────────────────────────── */
+  body:not(.print-mode) tbody tr:hover td {
+    background-color: #fffbe6 !important;
+  }
+
+  /* ── Sticky thead (stays visible while scrolling) ───────── */
+  body:not(.print-mode) thead {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+  }
+
+  /* ── Table shadow ───────────────────────────────────────── */
+  body:not(.print-mode) table {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.10);
+  }
+
+  /* ── Dose-response sub-row accent ───────────────────────── */
+  body:not(.print-mode) .dose-row td:first-child {
+    border-left: 4px solid #3182ce !important;
+  }
+
+  /* ── h2 color ───────────────────────────────────────────── */
+  body:not(.print-mode) h2 {
+    color: #1e3a5f;
+  }
+
+  /* ── Buttons ────────────────────────────────────────────── */
+  body:not(.print-mode) button#printBtn,
+  body:not(.print-mode) button.print-btn {
+    background: #2c5282;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 7px 18px;
+    cursor: pointer;
+    font-size: 0.84em;
+    transition: background 0.18s;
+    margin-bottom: 12px;
+  }
+  body:not(.print-mode) button#printBtn:hover,
+  body:not(.print-mode) button.print-btn:hover {
+    background: #2b6cb0;
+  }
+
+  body:not(.print-mode) #langBtn {
+    background: #276749;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 7px 18px;
+    cursor: pointer;
+    font-size: 0.84em;
+    transition: background 0.18s;
+    margin-left: 6px;
+    margin-bottom: 12px;
+  }
+  body:not(.print-mode) #langBtn:hover {
+    background: #2f855a;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   B&W MODE  (body.print-mode on screen)
+   Strips colors to grayscale. Layout unchanged, buttons
+   remain visible so the mode can always be toggled off.
+   ════════════════════════════════════════════════════════════ */
+@media screen {
+
+  /* Group headers: mid-gray instead of navy */
+  body.print-mode .group-header,
+  body.print-mode .group-header td,
+  body.print-mode th.group-header {
+    background: #d4d4d4 !important;
+    color: #000 !important;
+    letter-spacing: 0;
+  }
+
+  /* Col headers: light gray, italic (like printed col headers) */
+  body.print-mode .col-header,
+  body.print-mode .col-header td,
+  body.print-mode th.col-header {
+    background: #ededed !important;
+    color: #000 !important;
+    font-style: italic !important;
+    font-weight: normal !important;
+  }
+
+  /* Outcome-section headers */
+  body.print-mode .outcome-header td {
+    background: #f0f0f0 !important;
+    color: #000 !important;
+    font-style: normal !important;
+  }
+
+  /* Even rows: neutral gray tint */
+  body.print-mode tbody tr:nth-child(even) td {
+    background-color: #f5f5f5 !important;
+  }
+
+  /* No colored hover in B&W */
+  body.print-mode tbody tr:hover td {
+    background-color: inherit !important;
+  }
+
+  /* Remove table shadow */
+  body.print-mode table {
+    box-shadow: none;
+  }
+
+  /* Disable sticky thead (avoids layering issues) */
+  body.print-mode thead {
+    position: static;
+  }
+
+  /* All text black */
+  body.print-mode td,
+  body.print-mode th {
+    color: #000 !important;
+  }
+
+  body.print-mode h2 {
+    color: #000;
+  }
+
+  /* Buttons in B&W: dark gray so they're still visible */
+  body.print-mode button#printBtn,
+  body.print-mode button.print-btn {
+    background: #555 !important;
+    color: #fff !important;
+  }
+
+  body.print-mode #langBtn {
+    background: #444 !important;
+    color: #fff !important;
+  }
+}
+
+/* ── Always hide langBtn during actual printing ─────────── */
+@media print {
+  #langBtn { display: none !important; }
+}
+</style>
+</head>
+<body>
+<div class="nav"><a href="../index.html">&#8592; Back to index</a></div>
+<button class="print-btn" onclick="togglePrint()">B&amp;W</button>
+<button id="langBtn" onclick="toggleLang()">עברית</button>
+
+<h2>Sugiura-Ogasawara et al., 2019</h2>
+<div class="meta">American Journal of Reproductive Immunology &mdash; Japan (JECS) &mdash; Dose-response (0/1/2/&ge;3 losses) &mdash; N = 96,212</div>
+
+<table>
+  <!-- Group A -->
+  <tr class="group-header"><td colspan="2">Group A: Study Characteristics</td></tr>
+  <tr><td class="field">Authors</td><td class="value">Mayumi Sugiura-Ogasawara, Takeshi Ebara, Yasuyuki Yamada, Naoto Shoji, Taro Matsuki, Hirohisa Kano, Takahiro Kurihara, Toyonori Omori, Motohiro Tomizawa, Maiko Miyata, Michihiro Kamijima, Shinji Saitoh, and the Japan Environment and Children's Study (JECS) Group</td></tr>
+  <tr><td class="field">Year</td><td class="value">2019</td></tr>
+  <tr><td class="field">Journal</td><td class="value">American Journal of Reproductive Immunology (2019;81:e13072)</td></tr>
+  <tr><td class="field">Country</td><td class="value">Japan</td></tr>
+  <tr><td class="field">Data source</td><td class="value">Japan Environment and Children's Study (JECS) &mdash; nationwide population-based birth cohort; self-administered questionnaires and medical record transcriptions; 15 regional JECS centers; dataset jecs-ag-20160424</td></tr>
+  <tr><td class="field">Study design</td><td class="value">Prospective population-based birth cohort study</td></tr>
+  <tr><td class="field">Study period</td><td class="value">Recruitment January 31, 2011 &ndash; March 31, 2014</td></tr>
+
+  <!-- Group B -->
+  <tr class="group-header"><td colspan="2">Group B: Population</td></tr>
+  <tr><td class="field">Total N</td><td class="value">96,212 in main analysis; histories of previous pregnancy losses available for 94,658</td></tr>
+  <tr><td class="field">N RM group</td><td class="value">&ge;3 losses: 1,065; 2 losses: 3,633 (analyzed as separate tiers)</td></tr>
+  <tr><td class="field">N control group</td><td class="value">73,413 (no previous pregnancy loss)</td></tr>
+  <tr><td class="field">Inclusion criteria</td><td class="value">Pregnant women in JECS between January 2011 &ndash; March 2014; residing in study areas; expected delivery after August 2011; capable of completing Japanese questionnaire</td></tr>
+  <tr><td class="field">Exclusion criteria</td><td class="value">Multiple pregnancies (n=1,994); induced abortions (n=310); repeat participants (n=5,586)</td></tr>
+  <tr><td class="field">Maternal age RM group</td><td class="value">&ge;3 losses: &gt;40 yrs 16.3%, 30&ndash;39 yrs 67.9%, 20&ndash;29 yrs 15.5%, &lt;20 yrs 0.3%</td></tr>
+  <tr><td class="field">Maternal age control</td><td class="value">0 losses: &gt;40 yrs 2.8%, 30&ndash;39 yrs 52.9%, 20&ndash;29 yrs 42.8%, &lt;20 yrs 1.5%. Mean (SD) age overall: 30.7 (5.1) years</td></tr>
+  <tr><td class="field">BMI RM group</td><td class="value">&ge;3 losses: &ge;25.0 kg/m&sup2; 12.9%, 18.5&ndash;25.0 72.7%, &lt;18.5 14.5%</td></tr>
+  <tr><td class="field">BMI control</td><td class="value">0 losses: &ge;25.0 kg/m&sup2; 10.4%, 18.5&ndash;25.0 72.9%, &lt;18.5 16.7%</td></tr>
+  <tr><td class="field">Parity</td><td class="value">Previous live birth: 79.0% (&ge;3 losses) vs 52.1% (0 losses); mixed parity population</td></tr>
+  <tr><td class="field">ART/IVF rate</td><td class="value">IVF-ET: 9.4% (&ge;3 losses) vs 2.7% (0 losses); 5.2% (2 losses); 4.2% (1 loss)</td></tr>
+  <tr><td class="field">Smoking</td><td class="value">Current smoker: 6.8% (&ge;3 losses), 7.2% (2 losses), 5.3% (1 loss) vs 4.5% (0 losses)</td></tr>
+
+  <!-- Group C -->
+  <tr class="group-header"><td colspan="2">Group C: Exposure &amp; Control Definition</td></tr>
+  <tr><td class="field">RM threshold</td><td class="value">Dose-response: 0, 1, 2, and &ge;3 previous pregnancy losses (PL); no single RM cutoff</td></tr>
+  <tr><td class="field">Type of losses</td><td class="value">All pregnancy losses reported by participants (self-report + doctor records); includes miscarriage, stillbirth, induced abortion distinguished in records. RPL defined as &ge;2 losses at any time during pregnancy.</td></tr>
+  <tr><td class="field">Gestational age cutoff</td><td class="value">Losses at any time during pregnancy; most before 12 weeks. Late miscarriage/stillbirth (&gt;20 wks) and early miscarriage (&lt;12 wks) analyzed as separate outcomes in the current pregnancy.</td></tr>
+  <tr><td class="field">Dose-response</td><td class="value">Yes &mdash; four tiers (0, 1, 2, &ge;3 prior losses) for all outcomes; OR reported for each tier vs. 0-loss reference</td></tr>
+  <tr><td class="field">Control group</td><td class="value">Women with no previous pregnancy loss (n = 73,413), same JECS cohort</td></tr>
+
+  <!-- Group D -->
+  <tr class="group-header"><td colspan="2">Group D: Outcomes &amp; Methods</td></tr>
+  <tr><td class="field">Outcomes measured</td><td class="value">Late miscarriage/stillbirth &gt;20 wks; early miscarriage &lt;12 wks; pregnancy loss (any); PTB &lt;37 wks; PTB &lt;34 wks; PROM; placenta praevia; oligohydramnios; abruptio placentae; placental adhesion; HDP mild; HDP severe; uterine infection; caesarean section; SFD (&lt;10th percentile); IUFD; low birth weight (&lt;2,500 g); infant sex (male); Apgar &lt;7 at 5 min; umbilical artery pH &lt;7.1; congenital anomaly; aneuploidy</td></tr>
+  <tr><td class="field">Effect measure</td><td class="value">OR (odds ratio) with 95% CI</td></tr>
+  <tr><td class="field">Statistical method</td><td class="value">Logistic regression with propensity score; four models: Model I (unadjusted), Model II (adjusted, complete-case), Model III (adjusted + MIA), Model IV (MIA + gynecological history). Primary results: Model III.</td></tr>
+  <tr><td class="field">Confounders adjusted</td><td class="value">Outcome-specific propensity scores (P &lt; .05 in univariable); variables considered: maternal age, BMI, marital status, IVF-ET, previous live birth, smoking, education, income, and 30+ medical/gynecological history covariates</td></tr>
+
+  <!-- Group E: Results -->
+  <tr class="group-header"><td colspan="2">Group E: Results (primary effect estimates from Model III = MIA + propensity score)</td></tr>
+  <tr class="col-header"><td>Field</td><td>Value</td></tr>
+
+  <!-- Late miscarriage / stillbirth -->
+  <tr class="outcome-header"><td colspan="2">Late Miscarriage and Stillbirth &gt;20 Weeks (current pregnancy)</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: &ge;3 losses vs 0 losses</td></tr>
+  <tr><td class="field">RM group (&ge;3 losses)</td><td class="value">1.6% (17/1,034)</td></tr>
+  <tr><td class="field">Control group (0 losses)</td><td class="value">0.7% (534/71,708)</td></tr>
+  <tr><td class="field">Crude OR [Model I] (95% CI)</td><td class="value">2.23 (1.37&ndash;3.63)</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">1.76 (1.04&ndash;2.96) &mdash; significant</td></tr>
+  <tr><td class="field">p-value</td><td class="value">NR (significant at 0.05)</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: 2 losses vs 0 losses</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">1.34 (0.97&ndash;1.84) &mdash; not significant</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: 1 loss vs 0 losses</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">1.18 (0.99&ndash;1.42) &mdash; not significant</td></tr>
+
+  <!-- Pregnancy loss any -->
+  <tr class="outcome-header"><td colspan="2">Pregnancy Loss (Current Pregnancy, Any)</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: &ge;3 losses vs 0 losses</td></tr>
+  <tr><td class="field">RM group (&ge;3 losses)</td><td class="value">2.3% (24/1,041)</td></tr>
+  <tr><td class="field">Control group (0 losses)</td><td class="value">1.1% (772/71,946)</td></tr>
+  <tr><td class="field">Crude OR [Model I] (95% CI)</td><td class="value">2.18 (1.44&ndash;3.28)</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">1.68 (1.12&ndash;2.52) &mdash; significant</td></tr>
+  <tr><td class="field">p-value</td><td class="value">NR (significant)</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: 2 losses vs 0 losses</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">1.09 (0.82&ndash;1.46) &mdash; not significant</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: 1 loss vs 0 losses</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">1.21 (1.04&ndash;1.41) &mdash; significant</td></tr>
+
+  <!-- Early miscarriage -->
+  <tr class="outcome-header"><td colspan="2">Early Miscarriage &lt;12 Weeks (Current Pregnancy)</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: &ge;3 losses vs 0 losses</td></tr>
+  <tr><td class="field">RM group (&ge;3 losses)</td><td class="value">0.7% (7/1,024)</td></tr>
+  <tr><td class="field">Control group (0 losses)</td><td class="value">0.3% (238/71,412)</td></tr>
+  <tr><td class="field">Crude OR [Model I] (95% CI)</td><td class="value">2.06 (0.97&ndash;4.38)</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">1.89 (0.89&ndash;4.02) &mdash; not significant</td></tr>
+  <tr><td class="field">p-value</td><td class="value">NR (not significant)</td></tr>
+
+  <!-- PTB <37 weeks -->
+  <tr class="outcome-header"><td colspan="2">Preterm Birth &lt;37 Weeks Gestation</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: &ge;3 losses vs 0 losses</td></tr>
+  <tr><td class="field">RM group (&ge;3 losses)</td><td class="value">7.1% (73/1,025)</td></tr>
+  <tr><td class="field">Control group (0 losses)</td><td class="value">4.8% (3,419/71,356)</td></tr>
+  <tr><td class="field">Crude OR [Model I] (95% CI)</td><td class="value">1.52 (1.20&ndash;1.94)</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">1.29 (1.01&ndash;1.65) &mdash; marginally significant</td></tr>
+  <tr><td class="field">p-value</td><td class="value">NR (marginally significant in Model III; non-significant in Model II)</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: 2 losses vs 0 losses</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">1.09 (0.94&ndash;1.27) &mdash; not significant</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: 1 loss vs 0 losses</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">0.98 (0.90&ndash;1.06) &mdash; not significant</td></tr>
+
+  <!-- PTB <34 weeks -->
+  <tr class="outcome-header"><td colspan="2">Preterm Birth &lt;34 Weeks Gestation</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: &ge;3 losses vs 0 losses</td></tr>
+  <tr><td class="field">RM group (&ge;3 losses)</td><td class="value">2.0% (21/1,025)</td></tr>
+  <tr><td class="field">Control group (0 losses)</td><td class="value">1.1% (793/71,356)</td></tr>
+  <tr><td class="field">Crude OR [Model I] (95% CI)</td><td class="value">1.86 (1.20&ndash;2.88)</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">1.43 (0.92&ndash;2.23) &mdash; not significant</td></tr>
+  <tr><td class="field">p-value</td><td class="value">NR (not significant)</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: 2 losses vs 0 losses</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">1.22 (0.93&ndash;1.61) &mdash; not significant</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: 1 loss vs 0 losses</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">1.05 (0.90&ndash;1.23) &mdash; not significant</td></tr>
+
+  <!-- PROM -->
+  <tr class="outcome-header"><td colspan="2">Premature Rupture of Membranes (PROM)</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: &ge;3 losses vs 0 losses</td></tr>
+  <tr><td class="field">RM group (&ge;3 losses)</td><td class="value">8.4% (86/1,025)</td></tr>
+  <tr><td class="field">Control group (0 losses)</td><td class="value">9.3% (6,622/71,392)</td></tr>
+  <tr><td class="field">Crude OR [Model I] (95% CI)</td><td class="value">0.90 (0.71&ndash;1.10)</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">1.11 (0.89&ndash;1.39) &mdash; not significant</td></tr>
+  <tr><td class="field">Subgroup/notes</td><td class="value">No increased risk across any tier in Model III</td></tr>
+
+  <!-- Placenta Praevia -->
+  <tr class="outcome-header"><td colspan="2">Placenta Praevia</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: &ge;3 losses vs 0 losses</td></tr>
+  <tr><td class="field">RM group (&ge;3 losses)</td><td class="value">1.1% (11/1,025)</td></tr>
+  <tr><td class="field">Control group (0 losses)</td><td class="value">0.6% (438/71,392)</td></tr>
+  <tr><td class="field">Crude OR [Model I] (95% CI)</td><td class="value">1.76 (0.96&ndash;3.21)</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">1.34 (0.73&ndash;2.46) &mdash; not significant</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: 2 losses vs 0 losses</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">1.56 (1.12&ndash;2.17) &mdash; significant</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: 1 loss vs 0 losses</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">1.26 (1.04&ndash;1.53) &mdash; significant</td></tr>
+  <tr><td class="field">Subgroup/notes</td><td class="value">Prevalence tended to increase with number of losses but &ge;3 not significant; lower tiers (1 and 2) were significant</td></tr>
+
+  <!-- Abruptio -->
+  <tr class="outcome-header"><td colspan="2">Abruptio Placentae</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: &ge;3 losses vs 0 losses</td></tr>
+  <tr><td class="field">RM group (&ge;3 losses)</td><td class="value">0.7% (7/1,025)</td></tr>
+  <tr><td class="field">Control group (0 losses)</td><td class="value">0.4% (292/71,392)</td></tr>
+  <tr><td class="field">Crude OR [Model I] (95% CI)</td><td class="value">1.67 (0.79&ndash;3.55)</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">1.47 (0.69&ndash;3.14) &mdash; not significant</td></tr>
+  <tr><td class="field">Subgroup/notes</td><td class="value">No significant association at any tier in Model III</td></tr>
+
+  <!-- Placental Adhesion -->
+  <tr class="outcome-header"><td colspan="2">Placental Adhesion</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: &ge;3 losses vs 0 losses</td></tr>
+  <tr><td class="field">RM group (&ge;3 losses)</td><td class="value">0.7% (7/1,025)</td></tr>
+  <tr><td class="field">Control group (0 losses)</td><td class="value">0.2% (150/71,392)</td></tr>
+  <tr><td class="field">Crude OR [Model I] (95% CI)</td><td class="value">3.27 (1.53&ndash;6.99)</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">2.53 (1.17&ndash;5.47) &mdash; significant</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: 2 losses vs 0 losses</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">1.74 (1.01&ndash;2.98) &mdash; significant</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: 1 loss vs 0 losses</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">1.23 (0.88&ndash;1.72) &mdash; not significant</td></tr>
+  <tr><td class="field">Subgroup/notes</td><td class="value">Described as a "novel" finding; ORs increase with number of losses (dose-response)</td></tr>
+
+  <!-- HDP Mild -->
+  <tr class="outcome-header"><td colspan="2">Hypertensive Disorders of Pregnancy &mdash; Mild</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: &ge;3 losses vs 0 losses</td></tr>
+  <tr><td class="field">RM group (&ge;3 losses)</td><td class="value">4.3% (44/1,025)</td></tr>
+  <tr><td class="field">Control group (0 losses)</td><td class="value">2.3% (1,659/71,392)</td></tr>
+  <tr><td class="field">Crude OR [Model I] (95% CI)</td><td class="value">1.89 (1.39&ndash;2.56)</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">1.87 (1.37&ndash;2.55) &mdash; significant</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: 2 losses vs 0 losses</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">1.10 (0.88&ndash;1.36) &mdash; not significant</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: 1 loss vs 0 losses</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">0.94 (0.84&ndash;1.06) &mdash; not significant</td></tr>
+  <tr><td class="field">Subgroup/notes</td><td class="value">Significant only at &ge;3 losses tier</td></tr>
+
+  <!-- HDP Severe -->
+  <tr class="outcome-header"><td colspan="2">Hypertensive Disorders of Pregnancy &mdash; Severe</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: &ge;3 losses vs 0 losses</td></tr>
+  <tr><td class="field">RM group (&ge;3 losses)</td><td class="value">1.8% (18/1,025)</td></tr>
+  <tr><td class="field">Control group (0 losses)</td><td class="value">1.0% (695/71,392)</td></tr>
+  <tr><td class="field">Crude OR [Model I] (95% CI)</td><td class="value">1.82 (1.13&ndash;2.92)</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">1.60 (0.99&ndash;2.57) &mdash; borderline, not significant</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: 2 losses vs 0 losses</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">0.84 (0.59&ndash;1.21) &mdash; not significant</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: 1 loss vs 0 losses</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">1.04 (0.88&ndash;1.23) &mdash; not significant</td></tr>
+
+  <!-- Uterine Infection -->
+  <tr class="outcome-header"><td colspan="2">Uterine Infection</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: &ge;3 losses vs 0 losses</td></tr>
+  <tr><td class="field">RM group (&ge;3 losses)</td><td class="value">1.1% (11/1,041)</td></tr>
+  <tr><td class="field">Control group (0 losses)</td><td class="value">0.7% (535/71,980)</td></tr>
+  <tr><td class="field">Crude OR [Model I] (95% CI)</td><td class="value">1.43 (0.78&ndash;2.60)</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">1.94 (1.06&ndash;3.55) &mdash; significant in Model III only</td></tr>
+  <tr><td class="field">Subgroup/notes</td><td class="value">Described as "novel" finding; significant in Model III (MIA) but not Model I or II. 2 losses: Model III 1.42 (0.97&ndash;2.07) &mdash; borderline.</td></tr>
+
+  <!-- Caesarean Section -->
+  <tr class="outcome-header"><td colspan="2">Caesarean Section</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: &ge;3 losses vs 0 losses</td></tr>
+  <tr><td class="field">RM group (&ge;3 losses)</td><td class="value">27.2% (277/1,019)</td></tr>
+  <tr><td class="field">Control group (0 losses)</td><td class="value">18.2% (12,978/71,126)</td></tr>
+  <tr><td class="field">Crude OR [Model I] (95% CI)</td><td class="value">1.67 (1.46&ndash;1.92)</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">1.28 (1.11&ndash;1.47) &mdash; significant</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: 2 losses vs 0 losses</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">1.17 (1.08&ndash;1.27) &mdash; significant</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: 1 loss vs 0 losses</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">1.03 (0.99&ndash;1.08) &mdash; not significant</td></tr>
+  <tr><td class="field">Subgroup/notes</td><td class="value">Dose-response at &ge;2 losses; significant at 2 and &ge;3 tiers</td></tr>
+
+  <!-- SFD -->
+  <tr class="outcome-header"><td colspan="2">Small for Date (SFD, birthweight &lt;10th percentile)</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: &ge;3 losses vs 0 losses</td></tr>
+  <tr><td class="field">RM group (&ge;3 losses)</td><td class="value">8.6% (88/1,025)</td></tr>
+  <tr><td class="field">Control group (0 losses)</td><td class="value">10.3% (7,370/71,271)</td></tr>
+  <tr><td class="field">Crude OR [Model I] (95% CI)</td><td class="value">0.81 (0.65&ndash;1.01)</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">0.98 (0.79&ndash;1.23) &mdash; not significant</td></tr>
+  <tr><td class="field">Subgroup/notes</td><td class="value">No increased risk of SFD at any tier after adjustment; crude OR actually &lt;1 for all tiers</td></tr>
+
+  <!-- IUFD -->
+  <tr class="outcome-header"><td colspan="2">Intrauterine Fetal Death (IUFD)</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: &ge;3 losses vs 0 losses</td></tr>
+  <tr><td class="field">RM group (&ge;3 losses)</td><td class="value">0.8% (8/1,041)</td></tr>
+  <tr><td class="field">Control group (0 losses)</td><td class="value">0.4% (294/71,980)</td></tr>
+  <tr><td class="field">Crude OR [Model I] (95% CI)</td><td class="value">1.89 (0.93&ndash;3.82)</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">1.55 (0.76&ndash;3.16) &mdash; not significant</td></tr>
+  <tr><td class="field">Subgroup/notes</td><td class="value">NR</td></tr>
+
+  <!-- LBW -->
+  <tr class="outcome-header"><td colspan="2">Low Birth Weight (&lt;2,500 g)</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: &ge;3 losses vs 0 losses</td></tr>
+  <tr><td class="field">RM group (&ge;3 losses)</td><td class="value">10.0% (102/1,024)</td></tr>
+  <tr><td class="field">Control group (0 losses)</td><td class="value">8.5% (6,051/71,300)</td></tr>
+  <tr><td class="field">Crude OR [Model I] (95% CI)</td><td class="value">1.19 (0.97&ndash;1.47)</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">1.20 (0.98&ndash;1.47) &mdash; not significant (described as "marginally increased risk")</td></tr>
+  <tr><td class="field">Subgroup/notes</td><td class="value">Results text cites 1.18 (0.96&ndash;1.46) for Model III &mdash; slight rounding discrepancy with table value of 1.20</td></tr>
+
+  <!-- Apgar <7 at 5 min -->
+  <tr class="outcome-header"><td colspan="2">Apgar Score &lt;7 at 5 Minutes</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: &ge;3 losses vs 0 losses</td></tr>
+  <tr><td class="field">RM group (&ge;3 losses)</td><td class="value">0.5% (5/978)</td></tr>
+  <tr><td class="field">Control group (0 losses)</td><td class="value">0.6% (419/67,588)</td></tr>
+  <tr><td class="field">Crude OR [Model I] (95% CI)</td><td class="value">0.82 (0.34&ndash;1.99)</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">0.76 (0.31&ndash;1.84) &mdash; not significant</td></tr>
+  <tr><td class="field">Subgroup/notes</td><td class="value">No increased risk</td></tr>
+
+  <!-- Congenital Anomaly -->
+  <tr class="outcome-header"><td colspan="2">Congenital Anomaly</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: &ge;3 losses vs 0 losses</td></tr>
+  <tr><td class="field">RM group (&ge;3 losses)</td><td class="value">12.7% (129/1,015)</td></tr>
+  <tr><td class="field">Control group (0 losses)</td><td class="value">12.2% (8,607/70,321)</td></tr>
+  <tr><td class="field">Crude OR [Model I] (95% CI)</td><td class="value">1.04 (0.87&ndash;1.26)</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">0.96 (0.80&ndash;1.16) &mdash; not significant</td></tr>
+  <tr><td class="field">Subgroup/notes</td><td class="value">No increased risk at any tier</td></tr>
+
+  <!-- Aneuploidy -->
+  <tr class="outcome-header"><td colspan="2">Aneuploidy</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: &ge;3 losses vs 0 losses</td></tr>
+  <tr><td class="field">RM group (&ge;3 losses)</td><td class="value">0.2% (2/1,025)</td></tr>
+  <tr><td class="field">Control group (0 losses)</td><td class="value">0.2% (140/71,424)</td></tr>
+  <tr><td class="field">Crude OR [Model I] (95% CI)</td><td class="value">1.00 (0.25&ndash;4.03)</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">0.61 (0.15&ndash;2.46) &mdash; not significant</td></tr>
+  <tr><td class="field">Subgroup/notes</td><td class="value">No increased risk</td></tr>
+
+  <!-- Infant Sex -->
+  <tr class="outcome-header"><td colspan="2">Infant Sex (Male)</td></tr>
+  <tr class="tier-header"><td colspan="2">Tier: &ge;3 losses vs 0 losses</td></tr>
+  <tr><td class="field">RM group (&ge;3 losses)</td><td class="value">47.7% (493/1,034)</td></tr>
+  <tr><td class="field">Control group (0 losses)</td><td class="value">51.3% (36,804/71,700)</td></tr>
+  <tr><td class="field">Crude OR [Model I] (95% CI)</td><td class="value">0.86 (0.76&ndash;0.98)</td></tr>
+  <tr><td class="field">Adjusted aOR Model III (95% CI)</td><td class="value">0.86 (0.76&ndash;0.98) &mdash; significant (fewer males)</td></tr>
+  <tr><td class="field">Subgroup/notes</td><td class="value">Significantly fewer male infants in the &ge;3 prior losses group &mdash; described as a novel finding</td></tr>
+
+  <!-- Group F -->
+  <tr class="group-header"><td colspan="2">Group F: Quality Notes</td></tr>
+  <tr><td class="field">Data source quality</td><td class="value">High &mdash; large-scale nationwide birth cohort (n &gt; 96,000); prospective collection; multiple data sources (self-report + medical records); government-funded with standardized protocols</td></tr>
+  <tr><td class="field">Confounder adjustment</td><td class="value">Yes &mdash; extensive; outcome-specific propensity scores with up to 30+ covariates; four models with increasing adjustment rigor; MIA used to handle 5.2%&ndash;21.1% missing data</td></tr>
+  <tr><td class="field">Outcome validation</td><td class="value">Medical record transcription by doctors; congenital anomaly from physical examination and neonatal discharge records; chromosomal aneuploidy from doctor records</td></tr>
+  <tr><td class="field">Bias acknowledged</td><td class="value">Generalizability concerns addressed via MIA; increased surveillance bias (women with PL may have more gynecological diagnoses, hence Model IV); no information on induced abortion in some records</td></tr>
+  <tr><td class="field">Other notes</td><td class="value">Use of MIA is a key methodological distinction; some outcomes (PTB &lt;37 wks, uterine infection) became significant only in Model III, illustrating impact of missing data handling. Uses "pregnancy loss" (PL) terminology, including losses at any gestational age. Dose-response mirrors Gunnarsdottir 2014 but in a Japanese population.</td></tr>
+</table>
+
+<div class="abbrev">
+  <strong>Abbreviations:</strong> RM = recurrent miscarriage; mc = miscarriage; PL = pregnancy loss; OR = odds ratio; aOR = adjusted odds ratio; CI = confidence interval; NR = not reported; PTB = preterm birth; SFD = small for date; IUFD = intrauterine fetal death; LBW = low birth weight; HDP = hypertensive disorders of pregnancy; PROM = premature rupture of membranes; IVF-ET = in vitro fertilization and embryo transfer; MIA = multiple imputation analyses; JECS = Japan Environment and Children's Study.
+</div>
+<script>
+(function () {
+  var T = {
+  "RM Meta-Analysis \u2014 Table Index": "\u05de\u05d8\u05d0-\u05d0\u05e0\u05dc\u05d9\u05d6\u05d4: \u05d4\u05e4\u05dc\u05d5\u05ea \u05d7\u05d5\u05d6\u05e8\u05d5\u05ea \u2014 \u05d0\u05d9\u05e0\u05d3\u05e7\u05e1",
+  "Layer 1 \u2014 Study Characteristics": "\u05e9\u05db\u05d1\u05d4 1 \u2014 \u05de\u05d0\u05e4\u05d9\u05d9\u05e0\u05d9 \u05d4\u05de\u05d7\u05e7\u05e8\u05d9\u05dd",
+  "Layer 2 \u2014 Outcome-Specific Tables": "\u05e9\u05db\u05d1\u05d4 2 \u2014 \u05d8\u05d1\u05dc\u05d0\u05d5\u05ea \u05dc\u05e4\u05d9 \u05ea\u05d5\u05e6\u05d0\u05d4",
+  "Layer 3 \u2014 Per-Paper Detail Pages": "\u05e9\u05db\u05d1\u05d4 3 \u2014 \u05d3\u05e4\u05d9 \u05e4\u05d9\u05e8\u05d5\u05d8 \u05dc\u05db\u05dc \u05de\u05d7\u05e7\u05e8",
+  "This index provides access to all data extraction tables for the meta-analysis examining placental complications in women with recurrent miscarriage (RM). Click any link to view the corresponding table. Outcome-specific tables include only papers that reported the relevant outcome; papers where the outcome was not measured or not reported are omitted from each table.": "\u05d0\u05d9\u05e0\u05d3\u05e7\u05e1 \u05d6\u05d4 \u05de\u05e1\u05e4\u05e7 \u05d2\u05d9\u05e9\u05d4 \u05dc\u05db\u05dc \u05d8\u05d1\u05dc\u05d0\u05d5\u05ea \u05d7\u05d9\u05dc\u05d5\u05e5 \u05d4\u05e0\u05ea\u05d5\u05e0\u05d9\u05dd \u05e2\u05d1\u05d5\u05e8 \u05d4\u05de\u05d8\u05d0-\u05d0\u05e0\u05dc\u05d9\u05d6\u05d4 \u05d4\u05d1\u05d5\u05d7\u05e0\u05ea \u05e1\u05d9\u05d1\u05d5\u05db\u05d9\u05dd \u05e9\u05d9\u05dc\u05d9\u05ea\u05d9\u05d9\u05dd \u05d1\u05e0\u05e9\u05d9\u05dd \u05e2\u05dd \u05d4\u05e4\u05dc\u05d5\u05ea \u05d7\u05d5\u05d6\u05e8\u05d5\u05ea (\u05d4\u05e4\"\u05d7). \u05dc\u05d7\u05e6\u05d5 \u05e2\u05dc \u05db\u05dc \u05e7\u05d9\u05e9\u05d5\u05e8 \u05dc\u05e6\u05e4\u05d9\u05d9\u05d4 \u05d1\u05d8\u05d1\u05dc\u05d4 \u05d4\u05de\u05ea\u05d0\u05d9\u05de\u05d4. \u05d4\u05d8\u05d1\u05dc\u05d0\u05d5\u05ea \u05d4\u05e1\u05e4\u05e6\u05d9\u05e4\u05d9\u05d5\u05ea \u05dc\u05ea\u05d5\u05e6\u05d0\u05d5\u05ea \u05db\u05d5\u05dc\u05dc\u05d5\u05ea \u05e8\u05e7 \u05de\u05d7\u05e7\u05e8\u05d9\u05dd \u05e9\u05d3\u05d9\u05d5\u05d5\u05d7\u05d5 \u05e2\u05dc \u05d4\u05ea\u05d5\u05e6\u05d0\u05d4 \u05d4\u05e8\u05dc\u05d5\u05d5\u05e0\u05d8\u05d9\u05ea; \u05de\u05d7\u05e7\u05e8\u05d9\u05dd \u05e9\u05d1\u05d4\u05dd \u05d4\u05ea\u05d5\u05e6\u05d0\u05d4 \u05dc\u05d0 \u05e0\u05de\u05d3\u05d3\u05d4 \u05d0\u05d5 \u05dc\u05d0 \u05d3\u05d5\u05d5\u05d7\u05d4 \u05d0\u05d9\u05e0\u05dd \u05db\u05dc\u05d5\u05dc\u05d9\u05dd.",
+  "Overview": "\u05e1\u05e7\u05d9\u05e8\u05d4",
+  "Hypertensive / Placental Outcomes": "\u05ea\u05d5\u05e6\u05d0\u05d5\u05ea \u05d9\u05ea\u05e8 \u05dc\"\u05d3 / \u05e9\u05dc\u05d9\u05d4",
+  "Perinatal Outcomes": "\u05ea\u05d5\u05e6\u05d0\u05d5\u05ea \u05e1\u05d1-\u05dc\u05d9\u05d3\u05ea\u05d9\u05d5\u05ea",
+  "Delivery Outcomes": "\u05ea\u05d5\u05e6\u05d0\u05d5\u05ea \u05dc\u05d9\u05d3\u05d4",
+  "Individual Study Pages": "\u05d3\u05e4\u05d9 \u05de\u05d7\u05e7\u05e8 \u05d1\u05d5\u05d3\u05d3\u05d9\u05dd",
+  "Study Characteristics (all 15 papers)": "\u05de\u05d0\u05e4\u05d9\u05d9\u05e0\u05d9 \u05d4\u05de\u05d7\u05e7\u05e8\u05d9\u05dd (\u05db\u05dc 15 \u05d4\u05de\u05d7\u05e7\u05e8\u05d9\u05dd)",
+  "Preeclampsia \u2014 All (any / overall)": "\u05e8\u05e2\u05dc\u05ea \u05d4\u05e8\u05d9\u05d5\u05df \u2014 \u05db\u05dc \u05d4\u05e1\u05d5\u05d2\u05d9\u05dd",
+  "Preeclampsia \u2014 Preterm onset (<37 wks)": "\u05e8\u05e2\u05dc\u05ea \u05d4\u05e8\u05d9\u05d5\u05df \u2014 \u05ea\u05d7\u05d9\u05dc\u05d4 \u05de\u05d5\u05e7\u05d3\u05de\u05ea (<37 \u05e9\u05d1\u05f3)",
+  "Preterm Birth \u2014 All (<37 wks)": "\u05dc\u05d9\u05d3\u05d4 \u05de\u05d5\u05e7\u05d3\u05de\u05ea \u2014 \u05db\u05dc \u05d4\u05e1\u05d5\u05d2\u05d9\u05dd (<37 \u05e9\u05d1\u05f3)",
+  "Very Preterm Birth (<32 wks)": "\u05dc\u05d9\u05d3\u05d4 \u05de\u05d5\u05e7\u05d3\u05de\u05ea \u05de\u05d0\u05d5\u05d3 (<32 \u05e9\u05d1\u05f3)",
+  "Study Characteristics \u2014 All 15 Studies": "\u05de\u05d0\u05e4\u05d9\u05d9\u05e0\u05d9 \u05d4\u05de\u05d7\u05e7\u05e8\u05d9\u05dd \u2014 \u05db\u05dc 15 \u05d4\u05de\u05d7\u05e7\u05e8\u05d9\u05dd",
+  "Preeclampsia \u2014 Any / Overall": "\u05e8\u05e2\u05dc\u05ea \u05d4\u05e8\u05d9\u05d5\u05df \u2014 \u05db\u05dc \u05d4\u05e1\u05d5\u05d2\u05d9\u05dd / \u05db\u05d5\u05dc\u05dc",
+  "Preeclampsia \u2014 Preterm Onset (<37 wks)": "\u05e8\u05e2\u05dc\u05ea \u05d4\u05e8\u05d9\u05d5\u05df \u2014 \u05ea\u05d7\u05d9\u05dc\u05d4 \u05de\u05d5\u05e7\u05d3\u05de\u05ea (<37 \u05e9\u05d1\u05f3)",
+  "Gestational Hypertension": "\u05d9\u05ea\u05e8 \u05dc\u05d7\u05e5 \u05d3\u05dd \u05d4\u05e8\u05d9\u05d5\u05e0\u05d9",
+  "Placental Abruption": "\u05d4\u05d9\u05e4\u05e8\u05d3\u05d5\u05ea \u05e9\u05dc\u05d9\u05d4",
+  "Placenta Previa": "\u05e9\u05dc\u05d9\u05d4 \u05e7\u05d3\u05de\u05d9\u05ea",
+  "Preterm Birth \u2014 All (<37 weeks)": "\u05dc\u05d9\u05d3\u05d4 \u05de\u05d5\u05e7\u05d3\u05de\u05ea \u2014 \u05db\u05dc \u05d4\u05e1\u05d5\u05d2\u05d9\u05dd (<37 \u05e9\u05d1\u05f3)",
+  "Very Preterm Birth / Severe PTB (<32 or <34 weeks)": "\u05dc\u05d9\u05d3\u05d4 \u05de\u05d5\u05e7\u05d3\u05de\u05ea \u05de\u05d0\u05d5\u05d3 (<32 \u05d0\u05d5 <34 \u05e9\u05d1\u05f3)",
+  "SGA / IUGR / FGR": "SGA / IUGR / FGR",
+  "Stillbirth / IUFD / Perinatal Death": "\u05de\u05d5\u05ea \u05e2\u05d5\u05d1\u05e8 / IUFD / \u05de\u05d5\u05d5\u05ea \u05e1\u05d1-\u05dc\u05d9\u05d3\u05ea\u05d9",
+  "Cesarean Section": "\u05e0\u05d9\u05ea\u05d5\u05d7 \u05e7\u05d9\u05e1\u05e8\u05d9",
+  "Postpartum / Antepartum Hemorrhage": "\u05d3\u05d9\u05de\u05d5\u05dd \u05dc\u05d0\u05d7\u05e8 / \u05dc\u05e4\u05e0\u05d9 \u05d4\u05dc\u05d9\u05d3\u05d4",
+  "Study": "\u05de\u05d7\u05e7\u05e8",
+  "Crude Result": "\u05ea\u05d5\u05e6\u05d0\u05d4 \u05d2\u05d5\u05dc\u05de\u05d9\u05ea",
+  "Adjusted Result": "\u05ea\u05d5\u05e6\u05d0\u05d4 \u05de\u05ea\u05d5\u05e7\u05e0\u05ea",
+  "Notes": "\u05d4\u05e2\u05e8\u05d5\u05ea",
+  "Study Identity": "\u05d6\u05d9\u05d4\u05d5\u05d9 \u05d4\u05de\u05d7\u05e7\u05e8",
+  "Population": "\u05d0\u05d5\u05db\u05dc\u05d5\u05e1\u05d9\u05d9\u05d4",
+  "Methods": "\u05e9\u05d9\u05d8\u05d5\u05ea",
+  "Outcomes Reported": "\u05ea\u05d5\u05e6\u05d0\u05d5\u05ea \u05e9\u05d3\u05d5\u05d5\u05d7\u05d5",
+  "Quality": "\u05d0\u05d9\u05db\u05d5\u05ea",
+  "Study Characteristics": "\u05de\u05d0\u05e4\u05d9\u05d9\u05e0\u05d9 \u05d4\u05de\u05d7\u05e7\u05e8",
+  "Exposure & Control Definition": "\u05d4\u05d2\u05d3\u05e8\u05ea \u05d7\u05e9\u05d9\u05e4\u05d4 \u05d5\u05d1\u05e7\u05e8\u05d4",
+  "Outcomes & Methods": "\u05ea\u05d5\u05e6\u05d0\u05d5\u05ea \u05d5\u05e9\u05d9\u05d8\u05d5\u05ea",
+  "Results by Outcome": "\u05ea\u05d5\u05e6\u05d0\u05d5\u05ea \u05dc\u05e4\u05d9 \u05e4\u05dc\u05d8",
+  "Quality Notes": "\u05d4\u05e2\u05e8\u05d5\u05ea \u05d0\u05d9\u05db\u05d5\u05ea",
+  "Group A: Study Characteristics": "\u05e7\u05d1\u05d5\u05e6\u05d4 \u05d0\u05f3: \u05de\u05d0\u05e4\u05d9\u05d9\u05e0\u05d9 \u05d4\u05de\u05d7\u05e7\u05e8",
+  "Group B: Population": "\u05e7\u05d1\u05d5\u05e6\u05d4 \u05d1\u05f3: \u05d0\u05d5\u05db\u05dc\u05d5\u05e1\u05d9\u05d9\u05d4",
+  "Group C: Exposure & Control Definition": "\u05e7\u05d1\u05d5\u05e6\u05d4 \u05d2\u05f3: \u05d4\u05d2\u05d3\u05e8\u05ea \u05d7\u05e9\u05d9\u05e4\u05d4 \u05d5\u05d1\u05e7\u05e8\u05d4",
+  "Group D: Outcomes & Methods": "\u05e7\u05d1\u05d5\u05e6\u05d4 \u05d3\u05f3: \u05ea\u05d5\u05e6\u05d0\u05d5\u05ea \u05d5\u05e9\u05d9\u05d8\u05d5\u05ea",
+  "Group E: Results": "\u05e7\u05d1\u05d5\u05e6\u05d4 \u05d4\u05f3: \u05ea\u05d5\u05e6\u05d0\u05d5\u05ea",
+  "Group F: Quality Notes": "\u05e7\u05d1\u05d5\u05e6\u05d4 \u05d5\u05f3: \u05d4\u05e2\u05e8\u05d5\u05ea \u05d0\u05d9\u05db\u05d5\u05ea",
+  "Author, Year": "\u05de\u05d7\u05d1\u05e8, \u05e9\u05e0\u05d4",
+  "N (RM / Control)": "\u05de\u05e1\u05e4\u05e8 (\u05d4\u05e4\"\u05d7 / \u05d1\u05d9\u05e7\u05d5\u05e8\u05ea)",
+  "RM Definition": "\u05d4\u05d2\u05d3\u05e8\u05ea \u05d4\u05e4\"\u05d7",
+  "RM Group (n/N, %)": "\u05e7\u05d1\u05d5\u05e6\u05ea \u05d4\u05e4\"\u05d7 (n/N, %)",
+  "Control (n/N, %)": "\u05d1\u05d9\u05e7\u05d5\u05e8\u05ea (n/N, %)",
+  "Crude OR/RR (95% CI)": "OR/RR \u05d2\u05d5\u05dc\u05de\u05d9 (95% CI)",
+  "Adjusted aOR/aRR (95% CI)": "aOR/aRR \u05de\u05ea\u05d5\u05e7\u05df (95% CI)",
+  "Confounders Adjusted": "\u05d2\u05d5\u05e8\u05de\u05d9\u05dd \u05de\u05d1\u05dc\u05d1\u05dc\u05d9\u05dd \u05e9\u05ea\u05d5\u05e7\u05e0\u05e0\u05d5",
+  "Subgroup / Notes": "\u05ea\u05ea-\u05e7\u05d1\u05d5\u05e6\u05d4 / \u05d4\u05e2\u05e8\u05d5\u05ea",
+  "Country; Source": "\u05de\u05d3\u05d9\u05e0\u05d4; \u05de\u05e7\u05d5\u05e8",
+  "Design; Period": "\u05e2\u05d9\u05e6\u05d5\u05d1; \u05ea\u05e7\u05d5\u05e4\u05d4",
+  "Control Definition": "\u05d4\u05d2\u05d3\u05e8\u05ea \u05e7\u05d1\u05d5\u05e6\u05ea \u05d1\u05d9\u05e7\u05d5\u05e8\u05ea",
+  "Effect Measure; Method": "\u05de\u05d3\u05d3 \u05d0\u05e4\u05e7\u05d8; \u05e9\u05d9\u05d8\u05d4",
+  "Outcomes Measured": "\u05ea\u05d5\u05e6\u05d0\u05d5\u05ea \u05e9\u05e0\u05de\u05d3\u05d3\u05d5",
+  "Field": "\u05e9\u05d3\u05d4",
+  "Value": "\u05e2\u05e8\u05da",
+  "Authors": "\u05de\u05d7\u05d1\u05e8\u05d9\u05dd",
+  "Year": "\u05e9\u05e0\u05d4",
+  "Journal": "\u05db\u05ea\u05d1 \u05e2\u05ea",
+  "Country": "\u05de\u05d3\u05d9\u05e0\u05d4",
+  "Data source": "\u05de\u05e7\u05d5\u05e8 \u05e0\u05ea\u05d5\u05e0\u05d9\u05dd",
+  "Study design": "\u05e2\u05d9\u05e6\u05d5\u05d1 \u05d4\u05de\u05d7\u05e7\u05e8",
+  "Study period": "\u05ea\u05e7\u05d5\u05e4\u05ea \u05d4\u05de\u05d7\u05e7\u05e8",
+  "Total N": "\u05e1\u05d4\"\u05db \u05e0",
+  "N RM group": "\u05e0 \u05e7\u05d1\u05d5\u05e6\u05ea \u05d4\u05e4\"\u05d7",
+  "N control group": "\u05e0 \u05e7\u05d1\u05d5\u05e6\u05ea \u05d1\u05d9\u05e7\u05d5\u05e8\u05ea",
+  "Inclusion criteria": "\u05e7\u05e8\u05d9\u05d8\u05e8\u05d9\u05d5\u05e0\u05d9 \u05d4\u05db\u05dc\u05d4",
+  "Exclusion criteria": "\u05e7\u05e8\u05d9\u05d8\u05e8\u05d9\u05d5\u05e0\u05d9 \u05d0\u05d9-\u05d4\u05db\u05dc\u05d4",
+  "Maternal age (RM)": "\u05d2\u05d9\u05dc \u05d0\u05de\u05d4\u05d5\u05ea\u05d9 (\u05d4\u05e4\"\u05d7)",
+  "Maternal age (control)": "\u05d2\u05d9\u05dc \u05d0\u05de\u05d4\u05d5\u05ea\u05d9 (\u05d1\u05d9\u05e7\u05d5\u05e8\u05ea)",
+  "BMI (RM)": "BMI (\u05d4\u05e4\"\u05d7)",
+  "BMI (control)": "BMI (\u05d1\u05d9\u05e7\u05d5\u05e8\u05ea)",
+  "Parity": "\u05e4\u05e8\u05d9\u05d5\u05df",
+  "ART/IVF rate": "\u05e9\u05d9\u05e2\u05d5\u05e8 ART/IVF",
+  "Smoking": "\u05e2\u05d9\u05e9\u05d5\u05df",
+  "RM threshold": "\u05e1\u05e3 \u05d4\u05e4\"\u05d7",
+  "Type of losses": "\u05e1\u05d5\u05d2 \u05d4\u05d4\u05e4\u05dc\u05d5\u05ea",
+  "GA cutoff for miscarriage": "\u05d2\u05d1\u05d5\u05dc \u05d2\u05d9\u05dc \u05d4\u05e8\u05d9\u05d5\u05df \u05dc\u05d4\u05e4\u05dc\u05d4",
+  "Dose-response analysis": "\u05e0\u05d9\u05ea\u05d5\u05d7 \u05de\u05d9\u05e0\u05d5\u05df-\u05ea\u05d2\u05d5\u05d1\u05d4",
+  "Control group definition": "\u05d4\u05d2\u05d3\u05e8\u05ea \u05e7\u05d1\u05d5\u05e6\u05ea \u05d1\u05d9\u05e7\u05d5\u05e8\u05ea",
+  "All outcomes measured": "\u05db\u05dc \u05d4\u05ea\u05d5\u05e6\u05d0\u05d5\u05ea \u05e9\u05e0\u05de\u05d3\u05d3\u05d5",
+  "Effect measure": "\u05de\u05d3\u05d3 \u05d0\u05e4\u05e7\u05d8",
+  "Statistical method": "\u05e9\u05d9\u05d8\u05d4 \u05e1\u05d8\u05d8\u05d9\u05e1\u05d8\u05d9\u05ea",
+  "Confounders adjusted": "\u05d2\u05d5\u05e8\u05de\u05d9\u05dd \u05de\u05d1\u05dc\u05d1\u05dc\u05d9\u05dd \u05e9\u05ea\u05d5\u05e7\u05e0\u05e0\u05d5",
+  "Data source quality": "\u05d0\u05d9\u05db\u05d5\u05ea \u05de\u05e7\u05d5\u05e8 \u05d4\u05e0\u05ea\u05d5\u05e0\u05d9\u05dd",
+  "Confounder adjustment": "\u05ea\u05d9\u05e7\u05d5\u05df \u05d2\u05d5\u05e8\u05de\u05d9\u05dd \u05de\u05d1\u05dc\u05d1\u05dc\u05d9\u05dd",
+  "Outcome validation": "\u05d0\u05d9\u05de\u05d5\u05ea \u05ea\u05d5\u05e6\u05d0\u05d5\u05ea",
+  "Bias acknowledged": "\u05d4\u05d8\u05d9\u05d4 \u05e9\u05d4\u05d5\u05db\u05e8\u05d4",
+  "Other notes": "\u05d4\u05e2\u05e8\u05d5\u05ea \u05e0\u05d5\u05e1\u05e4\u05d5\u05ea",
+  "RM group (n/N, %)": "\u05e7\u05d1\u05d5\u05e6\u05ea \u05d4\u05e4\"\u05d7 (n/N, %)",
+  "Control group (n/N, %)": "\u05e7\u05d1\u05d5\u05e6\u05ea \u05d1\u05d9\u05e7\u05d5\u05e8\u05ea (n/N, %)",
+  "Crude OR (95% CI)": "OR \u05d2\u05d5\u05dc\u05de\u05d9 (95% CI)",
+  "p-value": "\u05e2\u05e8\u05da-p",
+  "Subgroup/notes": "\u05ea\u05ea-\u05e7\u05d1\u05d5\u05e6\u05d4/\u05d4\u05e2\u05e8\u05d5\u05ea",
+  "Maternal age RM group": "\u05d2\u05d9\u05dc \u05d0\u05de\u05d4\u05d5\u05ea\u05d9 \u05e7\u05d1\u05d5\u05e6\u05ea \u05d4\u05e4\"\u05d7",
+  "Maternal age control": "\u05d2\u05d9\u05dc \u05d0\u05de\u05d4\u05d5\u05ea\u05d9 \u05d1\u05d9\u05e7\u05d5\u05e8\u05ea",
+  "BMI RM group": "BMI \u05e7\u05d1\u05d5\u05e6\u05ea \u05d4\u05e4\"\u05d7",
+  "BMI control": "BMI \u05d1\u05d9\u05e7\u05d5\u05e8\u05ea",
+  "Gestational age cutoff": "\u05d2\u05d1\u05d5\u05dc \u05d2\u05d9\u05dc \u05d4\u05e8\u05d9\u05d5\u05df",
+  "Dose-response": "\u05de\u05d9\u05e0\u05d5\u05df-\u05ea\u05d2\u05d5\u05d1\u05d4",
+  "Control group": "\u05e7\u05d1\u05d5\u05e6\u05ea \u05d1\u05d9\u05e7\u05d5\u05e8\u05ea",
+  "Outcomes measured": "\u05ea\u05d5\u05e6\u05d0\u05d5\u05ea \u05e9\u05e0\u05de\u05d3\u05d3\u05d5",
+  "RM group": "\u05e7\u05d1\u05d5\u05e6\u05ea \u05d4\u05e4\"\u05d7",
+  "Adjusted aOR (95% CI)": "aOR \u05de\u05ea\u05d5\u05e7\u05df (95% CI)",
+  "\u2190 Back to Index": "\u2190 \u05d7\u05d6\u05e8\u05d4 \u05dc\u05d0\u05d9\u05e0\u05d3\u05e7\u05e1",
+  "\u2190 Back to index": "\u2190 \u05d7\u05d6\u05e8\u05d4 \u05dc\u05d0\u05d9\u05e0\u05d3\u05e7\u05e1",
+  "B\u0026W": "\u05e9\u05d7/\u05dc",
+  "Abbreviations:": "\u05e7\u05d9\u05e6\u05d5\u05e8\u05d9\u05dd:",
+};
+
+  function markEl(el) {
+    var txt = (el.textContent || '').trim();
+    if (Object.prototype.hasOwnProperty.call(T, txt)) {
+      el.setAttribute('data-en', el.innerHTML);
+      el.setAttribute('data-he', T[txt]);
+    }
+  }
+
+  function mark() {
+    // .group-header: may be th/td (standard pages) or tr (Group-X pages)
+    document.querySelectorAll('.group-header').forEach(function (el) {
+      if (el.tagName === 'TR') {
+        [].forEach.call(el.children, markEl);
+      } else {
+        markEl(el);
+      }
+    });
+
+    // .col-header: may be th (standard pages) or tr (Group-X pages)
+    document.querySelectorAll('.col-header').forEach(function (el) {
+      if (el.tagName === 'TR') {
+        [].forEach.call(el.children, markEl);
+      } else {
+        markEl(el);
+      }
+    });
+
+    // Headings
+    document.querySelectorAll('h1, h2').forEach(markEl);
+
+    // First-child tds without colspan — field labels in detail pages
+    document.querySelectorAll('td:first-child:not([colspan])').forEach(markEl);
+
+    // Anchor links — back-to-index and Layer-2 index links
+    document.querySelectorAll('a').forEach(markEl);
+
+    // Layer labels (index page)
+    document.querySelectorAll('.layer-label').forEach(markEl);
+
+    // Intro paragraph (index page)
+    document.querySelectorAll('p.intro').forEach(markEl);
+
+    // Abbreviations label
+    document.querySelectorAll('.abbrev strong').forEach(markEl);
+
+    // Toggle-print buttons (Group-X format pages)
+    document.querySelectorAll('button.print-btn').forEach(markEl);
+  }
+
+  function toggleLang() {
+    var isHe = document.body.dir === 'rtl';
+    var newLang = isHe ? 'en' : 'he';
+
+    document.querySelectorAll('[data-en]').forEach(function (el) {
+      el.innerHTML = newLang === 'he' ? el.getAttribute('data-he') : el.getAttribute('data-en');
+    });
+
+    document.body.dir = newLang === 'he' ? 'rtl' : 'ltr';
+
+    var langBtn = document.getElementById('langBtn');
+    if (langBtn) langBtn.textContent = newLang === 'he' ? 'English' : 'עברית';
+
+    // Keep id="printBtn" text in sync (its onclick also updates text)
+    var printBtn = document.getElementById('printBtn');
+    if (printBtn) {
+      var isPrint = document.body.classList.contains('print-mode');
+      printBtn.textContent = isPrint
+        ? (newLang === 'he' ? 'צבעוני' : 'Color')
+        : (newLang === 'he' ? 'שח/ל' : 'B&W');
+    }
+
+    // Sync button.print-btn text too
+    document.querySelectorAll('button.print-btn').forEach(function (btn) {
+      var isPrintBW = document.body.classList.contains('print-mode');
+      btn.textContent = isPrintBW
+        ? (newLang === 'he' ? '\u05e6\u05d1\u05e2\u05d5\u05e0\u05d9' : 'Color')
+        : (newLang === 'he' ? '\u05e9\u05d7/\u05dc' : 'B\u0026W');
+    });
+
+    localStorage.setItem('lang', newLang);
+  }
+
+  // Override print-mode buttons to be language-aware and show B&W / Color
+  function setupPrintBtn() {
+    function applyToggle(btn) {
+      btn.onclick = function () {
+        document.body.classList.toggle('print-mode');
+        var isPrint = document.body.classList.contains('print-mode');
+        var isHe = document.body.dir === 'rtl';
+        this.textContent = isPrint
+          ? (isHe ? 'צבעוני' : 'Color')
+          : (isHe ? 'שח/ל' : 'B&W');
+      };
+    }
+    var btn = document.getElementById('printBtn');
+    if (btn) applyToggle(btn);
+    document.querySelectorAll('button.print-btn').forEach(applyToggle);
+  }
+
+  window.toggleLang = toggleLang;
+
+  document.addEventListener('DOMContentLoaded', function () {
+    mark();
+    setupPrintBtn();
+    if (localStorage.getItem('lang') === 'he') toggleLang();
+  });
+})();
+</script>
+</body>
+</html>
