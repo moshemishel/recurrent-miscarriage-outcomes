@@ -107,6 +107,6 @@ Hindawi papers also include `article_id` and `academic_editor`. Fields not prese
 
 ## Workflow Notes
 
-- Source PDFs are in the root directory alongside extracted text files (`.txt`, `.layout.txt`, `.raw.txt`, `.bbox.html`) used as transcription aids
+- Source PDFs are in the `pdfs/` directory. Intermediate extraction aids (`.txt`, `.layout.txt`, `.raw.txt`, `.bbox.html`) are stored alongside each PDF in `pdfs/`
 - The `.tmp_mona_pages/` directory contains page images extracted from PDFs for visual reference
 - When a PDF has complex layout (multi-column, tables), the `.layout.txt` file provides positional context and the `.bbox.html` provides bounding-box HTML for hard-to-parse sections
