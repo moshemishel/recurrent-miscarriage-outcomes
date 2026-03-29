@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Discussion Synthesis — Qualitative Extraction by Outcome</title>
+<style>
+/* ── Base ──────────────────────────────────────────────────── */
+body {
+  font-family: Arial, sans-serif;
+  font-size: 0.88em;
+  margin: 0;
+  padding: 30px 40px 60px;
+  max-width: 960px;
+  color: #222;
+  line-height: 1.55;
+}
+h1 {
+  font-size: 1.35em;
+  border-bottom: 2px solid #555;
+  padding-bottom: 8px;
+  margin-bottom: 4px;
+}
+h1 .sub { font-size: 0.72em; font-weight: normal; color: #555; display: block; margin-top: 4px; }
+h2 {
+  font-size: 1.12em;
+  margin-top: 40px;
+  margin-bottom: 10px;
+  color: #1e3a5f;
+  border-left: 5px solid #1e3a5f;
+  padding: 4px 0 4px 12px;
+  background: #eaf0fa;
+  border-radius: 0 4px 4px 0;
+}
+h3 {
+  font-size: 0.95em;
+  margin: 18px 0 6px;
+  color: #2c5282;
+}
+h4 {
+  font-size: 0.88em;
+  margin: 16px 0 4px;
+  color: #444;
+  font-style: italic;
+}
+
+/* ── Navigation ───────────────────────────────────────────── */
+nav#toc {
+  background: #f7f9fc;
+  border: 1px solid #d0d8e8;
+  border-radius: 6px;
+  padding: 14px 20px;
+  margin: 16px 0 28px;
+}
+nav#toc .toc-title {
+  font-weight: bold;
+  font-size: 0.92em;
+  color: #1e3a5f;
+  margin-bottom: 6px;
+}
+nav#toc ol {
+  margin: 0;
+  padding-left: 22px;
+}
+nav#toc ol li {
+  padding: 3px 0;
+}
+nav#toc a {
+  text-decoration: none;
+  color: #1a5276;
+}
+nav#toc a:hover {
+  text-decoration: underline;
+  color: #117a65;
+}
+
+/* ── Blockquotes (paper quotes) ───────────────────────────── */
+blockquote {
+  margin: 8px 0 12px 0;
+  padding: 8px 14px;
+  border-left: 3px solid #3182ce;
+  background: #f8faff;
+  color: #1a1a1a;
+  font-size: 0.94em;
+  line-height: 1.55;
+  border-radius: 0 4px 4px 0;
+}
+blockquote + blockquote { margin-top: 6px; }
+
+/* ── Study label ──────────────────────────────────────────── */
+.study-label {
+  font-weight: bold;
+  color: #1e3a5f;
+  font-size: 0.94em;
+  margin-top: 14px;
+  margin-bottom: 2px;
+}
+.study-label .year { color: #666; font-weight: normal; }
+
+/* ── "No discussion" lists ────────────────────────────────── */
+.no-discussion {
+  margin-top: 12px;
+  padding: 8px 14px;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.88em;
+  color: #555;
+}
+.no-discussion strong { color: #333; }
+
+/* ── Summary tables ───────────────────────────────────────── */
+table.summary {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.88em;
+  margin: 12px 0 18px;
+}
+table.summary th, table.summary td {
+  border: 1px solid #bbb;
+  padding: 5px 8px;
+  vertical-align: top;
+  text-align: left;
+}
+table.summary thead th {
+  background: #c4d9f3;
+  color: #1a3050;
+  font-weight: 600;
+}
+table.summary tbody tr:nth-child(even) td {
+  background: #f2f6fc;
+}
+
+/* ── Subsection divider ──────────────────────────────────── */
+.sub-header {
+  font-size: 0.96em;
+  font-weight: bold;
+  color: #1e3a5f;
+  margin: 24px 0 8px;
+  padding: 6px 12px;
+  background: #dbeafe;
+  border-radius: 4px;
+}
+
+/* ── Back-to-top ─────────────────────────────────────────── */
+.top-link {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 0.82em;
+  color: #888;
+  text-decoration: none;
+}
+.top-link:hover { color: #1a5276; text-decoration: underline; }
+
+/* ── Buttons ─────────────────────────────────────────────── */
+button.nav-btn {
+  background: #2c5282;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 7px 18px;
+  cursor: pointer;
+  font-size: 0.84em;
+  transition: background 0.18s;
+  margin-bottom: 12px;
+  margin-right: 6px;
+}
+button.nav-btn:hover { background: #2b6cb0; }
+
+/* ── Screen-mode design enhancements ─────────────────────── */
+@media screen {
+  body { background: #eef1f6; }
+}
+
+/* ── Mobile ──────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  body { margin: 10px; padding: 10px 12px 40px; }
+  h2 { font-size: 1.0em; }
+  blockquote { padding: 6px 10px; font-size: 0.90em; }
+  table.summary { display: block; overflow-x: auto; }
+}
+
+/* ── Print ───────────────────────────────────────────────── */
+@media print {
+  body { background: #fff; margin: 10px; }
+  button.nav-btn { display: none; }
+  nav#toc { break-inside: avoid; }
+  h2 { background: #eee !important; color: #000 !important; border-left-color: #000 !important; }
+  blockquote { border-left-color: #666; background: #fafafa; }
+}
+</style>
+</head>
+<body>
+
+<button class="nav-btn" onclick="location.href='index.html'">&larr; Table Index</button>
+<button class="nav-btn" onclick="window.print()">Print</button>
+
+<h1>Discussion Synthesis — Qualitative Extraction by Outcome
+<span class="sub">Verbatim passages from the discussion sections of 15 studies on recurrent miscarriage and subsequent pregnancy outcomes</span>
+</h1>
+
+<nav id="toc">
+<div class="toc-title">Table of Contents</div>
+<ol>
+  <li><a href="#sec-a">Cesarean Delivery</a></li>
+  <li><a href="#sec-b">Confounders</a></li>
+  <li><a href="#sec-c">APGAR Score</a></li>
+  <li><a href="#sec-d">Fetal Sex</a></li>
+  <li><a href="#sec-e">Low Birth Weight / SGA / IUGR</a></li>
+  <li><a href="#sec-f">Preterm Birth</a></li>
+  <li><a href="#sec-g">Gestational Diabetes</a></li>
+</ol>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════
+     A.  CESAREAN  DELIVERY
+     ═══════════════════════════════════════════════════════════ -->
+<h2 id="sec-a">A. Cesarean Delivery</h2>
+
+<p class="study-label">1. Sheiner <span class="year">(2005)</span></p>
+<blockquote>Higher rates of deliveries by CS were found in pregnancies following recurrent abortions. The significant association between abortions and CS was maintained after controlling for confounders. It might be caregiver bias, to choose the seemingly simpler, but not safer mode of Cesarean delivery in high-risk patients (i.e. these with a history of infertility or recurrent abortions [25]).</blockquote>
+<blockquote>In conclusion, a significant association exists between consecutive recurrent abortions and pregnancy complications such as abruptio placenta, hypertensive disorders and CS. This association is maintained after controlling for variables thought to coexist with recurrent abortions, and is significant even in patients with two or more consecutive abortions.</blockquote>
+<blockquote>This study demonstrates high rates of pregnancy complications such as abruptio placenta, hypertensive disorders and CS even after controlling for possible confounding variables.</blockquote>
+
+<p class="study-label">2. Jivraj <span class="year">(2001)</span></p>
+<blockquote>In this study, we examined the obstetric and neonatal outcome of 162 pregnancies which progressed to beyond 24 weeks in a cohort of women with recurrent (≥3) miscarriages, and compared the results to a local, control obstetric population who had deliveries during the study period. We found that the preterm delivery, small-for-gestational-age, Caesarean section and perinatal mortality rates in women with recurrent miscarriages were higher than those of the control population, although there were no differences in the rates of hypertensive disorders and diabetes between the two groups.</blockquote>
+<blockquote>To conclude, the pregnancy of women with a history of recurrent miscarriage is not associated with an increased risk of hypertension or diabetes. However, it is associated with a higher incidence of small-for-gestational-age babies, preterm delivery, Caesarean section rate and perinatal loss.</blockquote>
+
+<p class="study-label">3. TC Li <span class="year">(2002)</span></p>
+<blockquote>Women with a history of RM are at higher risk of several adverse obstetric and perinatal outcomes including preterm labour, Caesarean section, small for gestational age, and perinatal death. More intensive antenatal monitoring is required for this group of women.</blockquote>
+<blockquote>A history of RM has been reported to associate with preterm delivery, perinatal death, and delivery by Caesarean section, but the sample size of the study was small.</blockquote>
+
+<p class="study-label">4. Nasloon Ali <span class="year">(2020)</span></p>
+<blockquote>women with a history of RM were twice as likely to undergo cesarean section and deliver prematurely and seven times more likely to deliver before 32 weeks of gestation than women without a history of RM.</blockquote>
+<blockquote>Caregiver bias, where cesarean section is chosen as a simple mode of delivery in high-risk pregnancies, has been postulated to explain the increased likelihood of cesarean section in women with a history of RM.</blockquote>
+<blockquote>Similarly, endocrine disorders such as PCOS, diabetes and hypothyroidism can be associated with miscarriage as well as poor pregnancy outcomes such as cesarean sections and inductions.</blockquote>
+
+<p class="study-label">5. Jing Yang <span class="year">(2017)</span></p>
+<blockquote>Patients who experienced more than 2 incidents of miscarriage are often exposed to elevated incidences of placental dysfunction disorders and cesarean section. Such patients should be considered as high risk obstetric population.</blockquote>
+<blockquote>We found that placental-derived pregnancy-related complications and cesarean section rate were significantly correlated with FRSA history. Specific perinatal care and corresponding preventions of placenta diseases can be implemented to reduce the incidence of adverse pregnancy outcomes.</blockquote>
+<blockquote>This study shows that RSA is an independent risk factor for cesarean section, which is consistent with previous studies. In our study group, the age differences and history of abortion lead to no-indication cesarean sections. Placenta previa, placenta implantation/penetration, and FGR raised the incidence of cesarean sections with absolute indications.</blockquote>
+
+<p class="study-label">6. Murphy &amp; Field <span class="year">(2015)</span></p>
+<blockquote>Some studies have reported similar findings to ours with an association between RM and preterm delivery, perinatal death and delivery by Caesarean section, however the numbers included were small with limited attention to confounding factors (Jivraj et al., 2001). Dempsey et al. (2014) reported no significant increase in the risk of growth restriction, delivery by Caesarean section or perinatal death in a prospective cohort of women with unexplained RM, however only 42 women were studied.</blockquote>
+<blockquote>one study reported an association with placental abruption, hypertensive disorders and Caesarean section (Sheiner et al., 2005).</blockquote>
+<blockquote>The associations between RM and prematurity, perinatal death and scheduled Caesarean section are likely to be related. A management schedule addressing these risks should be put in place with maternal and fetal monitoring that addresses common underlying pathologies, including fetal growth restriction, placental dysfunction, pre-eclampsia and spontaneous preterm labour.</blockquote>
+
+<p class="study-label">7. Sugiura-Ogasawara <span class="year">(2020)</span></p>
+<blockquote>HDP and caesarean section were both associated with RPL. This is in line with the results of a population‐based study with 154 294 women, which indicated an increased risk of caesarean section, placenta abruptio, and hypertensive disorder after two or more consecutive abortions.</blockquote>
+
+<p class="study-label">8. Ausbeck <span class="year">(2021)</span></p>
+<blockquote>Jivraj et al (2001) also found increased rates of PTB, small for gestational age neonates, and perinatal loss, as well as an increased rate of cesarean delivery.</blockquote>
+
+<div class="no-discussion">
+<strong>Papers with no discussion of cesarean delivery:</strong>
+Gunnarsdottir (2014), Rasmark Roepke (2017), Thom (1992), Hautam&auml;ki (2024), Ticconi (2020), Zhang (2023), Fawzy (2014)
+</div>
+
+<a class="top-link" href="#toc">&uarr; Back to contents</a>
+
+<!-- ═══════════════════════════════════════════════════════════
+     B.  CONFOUNDERS
+     ═══════════════════════════════════════════════════════════ -->
+<h2 id="sec-b">B. Confounders</h2>
+
+<p class="study-label">1. Jinwen Zhang <span class="year">(2023)</span></p>
+<blockquote>To date, most studies are small, fail to adjust for potential confounders, or fail to select appropriate controls. Thus, there is a need for large, well-controlled studies that adjust for known relevant confounders for adverse obstetric and perinatal outcomes, including age, prepregnancy body mass index (BMI), parity, education level, smoking and alcohol use, assisted reproductive techniques, and medical history.</blockquote>
+<blockquote>Several sensitivity analyses were performed to test the robustness of our results, revealing the results were similar. The sensitivity analysis of patients with unexplained RM vs. no RM would account more reliably for some of these confounders and give a more accurate assessment of the association between RM and adverse outcomes.</blockquote>
+<blockquote>Because the prevalence of some pregnancy complications can vary with parity, Jivraj et al. suggested that the control population ideally should be matched on parity with the exposed cohort. The bias would be minimized when comparing the miscarriage group to their selective nulliparous/multiparous control. In addition, our stratified analyses showed parity to act as an effect modifier for several of the associations...</blockquote>
+<blockquote>It is possible that there was a more detailed documentation of potential confounders among patients with a history of RM.</blockquote>
+
+<p class="study-label">2. TC Li <span class="year">(2002)</span></p>
+<blockquote>Although we demonstrated a significantly increased risk of several obstetric and perinatal adverse outcomes in women with a history of RM, RM can be caused by a heterogeneous group of conditions, some of which can be associated with an increased risk of pregnancy complications, and thus there is a potential bias owing to these confounders. Women with unexplained RM is most suitable for examining pregnancy outcomes, because the confounding effects of other pathologies is minimised.</blockquote>
+<blockquote>Another study of women with RM did not adjust for the effects of confounders.</blockquote>
+
+<p class="study-label">3. Ausbeck <span class="year">(2021)</span></p>
+<blockquote>Due to the nature of RPL, studies of its impact on pregnancy outcomes are necessarily cohorts or case controls, with their inherent limitations of measured and unmeasured confounding. Indeed, women with RPL have risk factors for adverse pregnancy outcomes including older age and high-risk comorbidities... However, the large sample size and detailed data available regarding these comorbidities enabled the researchers to adjust for these confounding variables, and after adjusting, an apparent increase in the risk of PTB in women with RPL was no longer present.</blockquote>
+<blockquote>RPL was defined based on patient self-report, resulting in possible misclassification errors and biasing the results toward the null.</blockquote>
+<blockquote>The authors do not know if women in the cohort had an underlying cause of their RPLs and are unable to determine whether the findings differ based on etiology. Although this has the potential to introduce bias into the results, it is important to note that at least 50% of women who undergo an evaluation for RPL will not have an etiology found.</blockquote>
+<blockquote>Multiple comparisons were made, which raises the possibility that the findings in regards to gestational diabetes were due to chance alone.</blockquote>
+
+<p class="study-label">4. Mona Fawzy <span class="year">(2014)</span></p>
+<blockquote>since recurrent miscarriage can be caused by a heterogeneous group of conditions, some of which are intrinsically associated with an increased risk of pregnancy complications, there is a potential risk of bias due to associated confounding variables. To address this issue, we examined the validity of our results by repeating the analysis in two important subgroups.</blockquote>
+<blockquote>The first was a comparison of primary miscarriage patients with the control group limited only to women delivering their first pregnancies. Since the prevalence of some pregnancy complications can vary with parity, comparison of the primary miscarriage group to this selective control group would minimize bias.</blockquote>
+<blockquote>The second subgroup comparison included only women with unexplained miscarriage. Results remained consistent and showed an increased risk of unspecified APH, PTL, SGA and low Apgar scores. It therefore appears that regardless of the cause of miscarriage, women in this group represent a high-risk obstetric population.</blockquote>
+<blockquote>Since the unexplained miscarriage group is the best group in which to examine pregnancy outcomes, as the confounding effects of other pathologies is minimized, a multicentre collaborative effort is necessary to achieve a sufficiently large cohort to allow detailed analysis. Moreover, the use of meta-regression analysis may allow for a more detailed analysis of other potential confounders such as age and BMI.</blockquote>
+
+<p class="study-label">5. Thom <span class="year">(1992)</span></p>
+<blockquote>Investigating the association between prior spontaneous abortion and subsequent adverse birth outcomes is complicated by the interrelationship between parity, gravidity, maternal age, smoking, number of prior spontaneous abortions, and the interrelationship between adverse outcomes such as low birth weight, IUGR, prematurity, and low Apgar scores.</blockquote>
+<blockquote>Maternal age, smoking status, race, marital status, place of residence, and prenatal care were evaluated for confounding effects on all outcomes. Gestational age was evaluated as a potential confounder for all outcomes except IUGR. Only those variables that resulted in a meaningful change in the estimated relative risk were adjusted for in the analysis.</blockquote>
+<blockquote>It is also possible that the associations reported may be the result of an unmeasured external variable, such as poor nutrition or alcohol or drug abuse, rather than a shared biologic mechanism. Socioeconomic status was not adjusted in the current study; however, mother's household income did not confound the associations in a pilot analysis with the same data. Moreover, adjustment for race, marital status, and first-trimester prenatal care, all of which would be expected to be related to socioeconomic status, did not affect any of the associations reported.</blockquote>
+
+<p class="study-label">6. Sheiner <span class="year">(2005)</span></p>
+<blockquote>This study demonstrates high rates of pregnancy complications such as abruptio placenta, hypertensive disorders and CS even after controlling for possible confounding variables.</blockquote>
+<blockquote>The significant association between abortions and CS was maintained after controlling for confounders.</blockquote>
+<blockquote>recurrent spontaneous abortion may be an obstetric risk factor for subsequent adverse pregnancy outcome, and that thrombophilia might be the underlining factor accountable for both entities.</blockquote>
+
+<p class="study-label">7. Murphy &amp; Field <span class="year">(2015)</span></p>
+<blockquote>This is a retrospective cohort study and while regression analyses adjusted for potential confounding factors, residual confounding may persist.</blockquote>
+<blockquote>The affected women had not been categorized according to aetiology of recurrent miscarriage and it may be that adverse outcomes differ according to aetiological subgroup. However, many women with a history of three or more miscarriages book for antenatal care without prior assessment at a recurrent miscarriage clinic, and of those who have been assessed, approximately half will be diagnosed with unexplained RM.</blockquote>
+<blockquote>While we did not look specifically at the association between increased BMI and adverse perinatal outcome, this association has been well documented.</blockquote>
+
+<p class="study-label">8. Gunnarsdottir <span class="year">(2014)</span></p>
+<blockquote>In contrast to some previous studies, we were able to control for important confounders such as maternal smoking, BMI, and IVF as well as chronic hypertension, pregestational diabetes, hypothyroidism, and SLE. However, we had no information about other potential confounders, including thrombophilia and polycystic ovarian syndrome.</blockquote>
+<blockquote>Although we cannot exclude that the association reported is a result of residual confounding, we speculate that a causal relationship might exist between recurrent miscarriages and placental dysfunction disorders.</blockquote>
+
+<p class="study-label">9. Rasmark Roepke <span class="year">(2017)</span></p>
+<blockquote>Another strength was the ability to adjust for important confounders such as maternal age, smoking, BMI, conception by assisted reproduction and pre-gestational disorders; this ability is often lacking in other studies. However, information about other potential confounders such as maternal socio-economic class and fetal sex were not available, and other residual confounders may still persist.</blockquote>
+<blockquote>The RPL group is heterogeneous with several underlying causes and it would therefore be of further interest to analyze whether subgroups with different potential causes of RPL differ in terms of obstetrical outcomes... APLS was possible to identify and another analysis was made to adjust for this but no difference in the odds ratio was seen.</blockquote>
+
+<p class="study-label">10. Sugiura-Ogasawara <span class="year">(2020)</span></p>
+<blockquote>MIA allowed for a reliable estimation of the results and helped to minimize the risk of bias.</blockquote>
+<blockquote>ORs tended to be lower after the adjustment with MIA when they were compared using Model II and III. Many of covariates included in propensity score increased the rate of missing data, which might lead to over‐adjustment in Model II. Thus, MIA might insure the stability of the results in Model III, compared with those in Model II.</blockquote>
+<blockquote>It was speculated that women with PL could have a greater chance of being diagnosed with a gynecological disease as a result of frequent ultrasound sonography. Thus, we performed MIA with and without covariates for gynecological history.</blockquote>
+
+<p class="study-label">11. Ticconi <span class="year">(2020)</span></p>
+<blockquote>All the women of both groups with pre-existing diabetes and hypertension before the onset of pregnancy were excluded, in order to avoid confounding factors as much as possible, since the objective of the study was to investigate with specific attention the pregnancy-related complications in relation to RPL.</blockquote>
+<blockquote>it is very difficult to make comparisons and fully explain the differences in the specific pregnancy complications observed between the studies, including the present one. This can be due to multiple reasons, including the heterogeneity of the studies with regard to the study design (retrospective/prospective), the inclusion/exclusion criteria, the different specific complications taken into account and their clear definitions, the stratification of women with RPL in specific subgroups, the potential impact of different therapeutic managements</blockquote>
+
+<p class="study-label">12. Hautam&auml;ki <span class="year">(2024)</span></p>
+<blockquote>By selecting matched controls for RPL women from the same register, we were able to control for major confounding factors such as age and parity, as lack of this has been a weakness in some previous birth cohort studies.</blockquote>
+<blockquote>as limitations of this study, we might lack power to detect some of the rare obstetric and neonatal outcomes—such as stillbirth and placental abruption—due to the low number of women in the study.</blockquote>
+<blockquote>Our results can be partly reasoned with higher BMI and age in women with explained RPL.</blockquote>
+
+<p class="study-label">13. Nasloon Ali <span class="year">(2020)</span></p>
+<blockquote>Other factors such as uterine malformations or endocrine issues such as polycystic ovarian syndrome (PCOS) can also be related to RM as well as poor pregnancy outcomes. Uterine abnormalities have been linked to RM as well as preterm labor and birth and abnormal fetal presentations. Similarly, endocrine disorders such as PCOS, diabetes and hypothyroidism can be associated with miscarriage as well as poor pregnancy outcomes... Unfortunately, due to the lack of availability of data on these factors, we were not able to investigate their effect on the association between RM and the adverse maternal outcomes.</blockquote>
+<blockquote>there may have been residual confounding for factors we could not control for such as the use of artificial reproductive technology in the current pregnancy.</blockquote>
+
+<p class="study-label">14. Jivraj <span class="year">(2001)</span></p>
+<blockquote>recurrent miscarriage is a heterogeneous condition with several underlying causes. It would be of interest to analyse the results according to different causes of recurrent miscarriage to determine if the outcomes differ according to different subgroups.</blockquote>
+<blockquote>Another potential bias in our study relates to the effect of age and parity on the results of obstetric and neonatal outcome. Whilst we compared the results of women with recurrent miscarriage to a local, obstetric population, we have not corrected for the potential impact of age and parity on the outcome.</blockquote>
+
+<p class="study-label">15. Jing Yang <span class="year">(2017)</span></p>
+<blockquote>limitation of current studies cannot exclude confounding effects of other pathologies when examining pregnancy outcomes considering complex causes of recurrent miscarriage. The unexplained miscarriage group is the best group minimizing other confounding factors and therefore it is the most appropriate group. In this study, only patients who experienced two or more unexplained spontaneous abortions were enrolled; they also received no special perinatal interventions during obstetric examinations, which can minimize the impact of different abortion causes and perinatal treatments.</blockquote>
+
+<a class="top-link" href="#toc">&uarr; Back to contents</a>
+
+<!-- ═══════════════════════════════════════════════════════════
+     C.  APGAR  SCORE
+     ═══════════════════════════════════════════════════════════ -->
+<h2 id="sec-c">C. APGAR Score</h2>
+
+<p class="study-label">1. Thom <span class="year">(1992)</span></p>
+<blockquote>Investigating the association between prior spontaneous abortion and subsequent adverse birth outcomes is complicated by the interrelationship between parity, gravidity, maternal age, smoking, number of prior spontaneous abortions, and the interrelationship between adverse outcomes such as low birth weight, IUGR, prematurity, and low Apgar scores.</blockquote>
+<blockquote>Women with one prior spontaneous abortion had a relative risk of 1.3 of having an infant with a 1-minute Apgar score &lt;6, after adjustment for smoking, maternal age, and gestational age. This is less than the relative risk of 1.8 (95% confidence interval = 1.1 to 2.9) calculated from data reported in a previous study for a 1-minute Apgar score &lt;6 among women with one prior spontaneous abortion.</blockquote>
+
+<p class="study-label">2. Sheiner <span class="year">(2005)</span></p>
+<blockquote>Although factors such as IUGR, CS, low Apgar scores and perinatal mortality were found in higher rates in the thrombophilia group, the small number of cases precluded achieving a statistical significance.</blockquote>
+
+<p class="study-label">3. Mona Fawzy <span class="year">(2014)</span></p>
+<blockquote>The second subgroup comparison included only women with unexplained miscarriage. Results remained consistent and showed an increased risk of unspecified APH, PTL, SGA and low Apgar scores. It therefore appears that regardless of the cause of miscarriage, women in this group represent a high-risk obstetric population.</blockquote>
+
+<p class="study-label">4. Sugiura-Ogasawara <span class="year">(2020)</span></p>
+<blockquote>The present study revealed no risk of a congenital anomaly, aneuploidy, neonatal asphyxia, or SFD related to RPL.</blockquote>
+<blockquote>A recent retrospective study comparing 2030 patients with RM and 28 023 participants with no RM showed an increased risk of PTB and perinatal death after adjustment of covariates but no significantly increased risk of LBW, low Apgar score, congenital anomalies, or aneuploidy.</blockquote>
+
+<div class="no-discussion">
+<strong>Papers with no APGAR discussion:</strong>
+Jivraj (2001), TC Li (2002), Nasloon Ali (2020), Gunnarsdottir (2014), Murphy &amp; Field (2015), Jing Yang (2017), Rasmark Roepke (2017), Zhang (2023), Ticconi (2020), Hautam&auml;ki (2024), Ausbeck (2021)
+</div>
+
+<a class="top-link" href="#toc">&uarr; Back to contents</a>
+
+<!-- ═══════════════════════════════════════════════════════════
+     D.  FETAL  SEX
+     ═══════════════════════════════════════════════════════════ -->
+<h2 id="sec-d">D. Fetal Sex</h2>
+
+<p class="study-label">1. Mona Fawzy <span class="year">(2014)</span></p>
+<blockquote>Finally we examined the influence of foetal sex on pregnancy outcomes. There have been several previous reports of poorer pregnancy outcomes with male babies in the general obstetric populations (Aibar, Puertas, Valverde, Carrillo, &amp; Montoya, 2012; Brettell, Yeh, &amp; Impey, 2008; Melamed, Yogev, &amp; Glezerman, 2010; Sheiner et al., 2004; Tan et al., 2004) whereas in women with recurrent miscarriage, a recent study found that women with secondary recurrent miscarriage were more likely to deliver a female baby that were also more likely to be associated with poorer outcomes compared to male babies (Nielsen et al., 2010).</blockquote>
+<blockquote>In the current study, however, we found no difference in the sex ratio between the different subgroups and furthermore we found that male babies were associated with poorer outcomes. The fact that this effect was found at almost all levels of the analysis (groups and subgroups) strengthens these findings. The only group where a significant effect was not found was the unexplained primary miscarriage group. This was the smallest subgroup (24 males and 18 females) and it is therefore possible that the small sample size had led to a loss of statistical power.</blockquote>
+<blockquote>Finally, when these women do have a pregnancy that proceeds beyond 24 weeks, those carrying a male foetus may have a higher risk of several complications. It remains to be seen if early identification of foetal sex should dictate how these patients are monitored and managed in their pregnancy and whether or not this would alter their outcomes.</blockquote>
+
+<p class="study-label">2. Sugiura-Ogasawara <span class="year">(2020)</span></p>
+<blockquote>girl was a significantly more common outcome of a live birth after a secondary RM, and that the maternal carriage of male‐specific H‐Y‐restricting HLA class II alleles was associated with the reduced birth rate of boys.</blockquote>
+
+<p class="study-label">3. Gunnarsdottir <span class="year">(2014)</span></p>
+<blockquote>We speculate that the fetal genotype might also determine the viability of a pregnancy in a mother prone to placentation failure. If the fetus has a gene variation, making it susceptible for implantation failure, this may result in a complete failure of early placentation and a subsequent miscarriage. However, if the gene combination of the fetus is more favorable, the pregnancy stays viable but with risk of later development of placental dysfunction disorder.</blockquote>
+
+<p class="study-label">4. Rasmark Roepke <span class="year">(2017)</span></p>
+<blockquote>information about other potential confounders such as maternal socio-economic class and fetal sex were not available, and other residual confounders may still persist.</blockquote>
+
+<div class="no-discussion">
+<strong>Papers with no fetal sex discussion:</strong>
+Sheiner (2005), Jivraj (2001), TC Li (2002), Nasloon Ali (2020), Murphy &amp; Field (2015), Jing Yang (2017), Zhang (2023), Ticconi (2020), Hautam&auml;ki (2024), Ausbeck (2021), Thom (1992)
+</div>
+
+<a class="top-link" href="#toc">&uarr; Back to contents</a>
+
+<!-- ═══════════════════════════════════════════════════════════
+     E.  LOW  BIRTH  WEIGHT  /  SGA  /  IUGR
+     ═══════════════════════════════════════════════════════════ -->
+<h2 id="sec-e">E. Low Birth Weight / SGA / IUGR</h2>
+
+<p class="study-label">1. Thom <span class="year">(1992)</span></p>
+<blockquote>In the current study the adjusted relative risk of IUGR was 1.2 (95% confidence interval = 0.8 to 1.7) in women with three or more prior spontaneous abortions. This result is in contrast to a previous study that reported an increased unadjusted risk for severe IUGR in term infants (calculated relative risk = 2.2, 95% confidence interval = 1.6 to 2.9) in women whose previous pregnancy ended in a spontaneous abortion when compared with women whose previous pregnancy ended in a live birth.</blockquote>
+
+<p class="study-label">2. Jivraj <span class="year">(2001)</span></p>
+<blockquote>We found that the preterm delivery, small-for-gestational-age, Caesarean section and perinatal mortality rates in women with recurrent miscarriages were higher than those of the control population</blockquote>
+<blockquote>The association between low birth weight and the number of previous miscarriage(s) was examined by Alberman et al. (1980). The authors conducted a survey of pregnancies among 3502 women doctors and found that the mean birth weights of babies following two or three spontaneous miscarriages (3114 g and 3031 g respectively) were significantly lower than those following one miscarriage (3398 g) or a successful first pregnancy not preceded by any miscarriage (3324 g). They concluded that, in the subgroup of women with repeated early losses, the mean birth weight fell with increasing pregnancy order.</blockquote>
+<blockquote>Christiansen et al. (1992) conducted an interesting case-control study which examined the birth record of 79 couples with a history of unexplained recurrent miscarriage and found that women with recurrent miscarriages had themselves been born with a lower mean birth weight (3265 g) and a higher preterm delivery rate (10.8%) compared with control women (3414 g and 2.9% respectively). The mean birth weight of the male partners, on the other hand, did not differ significantly from the corresponding male controls. They concluded that there could well be the existence of a birth-weight-reducing trait associated with recurrent miscarriages, which manifests only in women.</blockquote>
+<blockquote>it is associated with a higher incidence of small-for-gestational-age babies, preterm delivery, Caesarean section rate and perinatal loss.</blockquote>
+
+<p class="study-label">3. TC Li <span class="year">(2002)</span></p>
+<blockquote>Women with a history of RM are at higher risk of several adverse obstetric and perinatal outcomes including preterm labour, Caesarean section, small for gestational age, and perinatal death.</blockquote>
+<blockquote>In a large epidemiological study of pregnancy outcomes between women with a previous miscarriage and women with a previous successful pregnancy, women with primary miscarriage were at significant higher risk of pre-eclampsia, antepartum haemorrhage, and low birth weight in the subsequent pregnancy.</blockquote>
+
+<p class="study-label">4. Mona Fawzy <span class="year">(2014)</span></p>
+<blockquote>In conclusion, the current study confirms that women with recurrent miscarriage have an increased risk of several maternal and foetal complications. The most significant complications are those of SGA and APH.</blockquote>
+<blockquote>Results remained consistent and showed an increased risk of unspecified APH, PTL, SGA and low Apgar scores.</blockquote>
+
+<p class="study-label">5. Jing Yang <span class="year">(2017)</span></p>
+<blockquote>In terms of FGR, the pathogenesis between early-onset and late-onset FGR differs. The early-onset FGR is caused by reduced density of trophoblastic vessels and impaired invasion ability in the second trimester, which is similar to that of FRSA. In this study, patients with FGR were subgrouped by their gestational weeks at the first diagnosis. We discovered that patients who suffered from FRSA had a significantly higher risk of early-onset FGR.</blockquote>
+<blockquote>The incidence of small for gestational age fetus, perinatal death, and neonatal severe asphyxia in the study group was higher than that in the control group, but the difference was not statistically significant. Small sample size, excellent capacity of prenatal care, and after-birth pediatric treatment for high risk pregnancies in our hospital may contribute to this situation.</blockquote>
+
+<p class="study-label">6. Rasmark Roepke <span class="year">(2017)</span></p>
+<blockquote>Furthermore, our study identified a higher risk of stillbirth, preterm delivery and SGA birth in RPL women compared with the reference group. This was equally in accordance with several other studies.</blockquote>
+<blockquote>Increased risk for stillbirth and SGA infants was found in preterm birth (&lt;37 GWs), although not at term (≥37 GWs) in our study, in line with the results of Gunnarsdottir et al. These results support the view that antenatal care should screen women with RPL for IUGR in the third trimester.</blockquote>
+<blockquote>Association between primary RPL and preterm and SGA birth has been presented previously, although we could only find an significant association between secondary RPL and SGA birth.</blockquote>
+
+<p class="study-label">7. Gunnarsdottir <span class="year">(2014)</span></p>
+<blockquote>In this large population-based study of primiparous women, we showed that prior miscarriages were associated with increased risks of the placental dysfunction disorders preeclampsia, stillbirth, SGA birth, placental abruption, and spontaneous preterm birth. The associations were strongest for 3 or more prior miscarriages and seemed stronger for preterm placental dysfunction disorders compared with term disorders.</blockquote>
+<blockquote>In a recent review, induced abortions were associated with increased risks of placental abruption and low birthweight but a reduced risk of preeclampsia.</blockquote>
+
+<p class="study-label">8. Murphy &amp; Field <span class="year">(2015)</span></p>
+<blockquote>Dempsey et al. (2014) reported no significant increase in the risk of growth restriction, delivery by Caesarean section or perinatal death in a prospective cohort of women with unexplained RM, however only 42 women were studied.</blockquote>
+<blockquote>A management schedule addressing these risks should be put in place with maternal and fetal monitoring that addresses common underlying pathologies, including fetal growth restriction, placental dysfunction, pre-eclampsia and spontaneous preterm labour.</blockquote>
+
+<p class="study-label">9. Hautam&auml;ki <span class="year">(2024)</span></p>
+<blockquote>In perinatal outcomes, preterm birth, lower birthweight, PROM, and placental problems—reflected in the neonatal period—were more common in the RPL group.</blockquote>
+<blockquote>Furthermore, their study reported SGA more often in the secondary RPL group compared to multipara controls. In our study, SGA was also observed relatively more often in the secondary RPL group (5.1% vs. 2.0%) than in multipara controls.</blockquote>
+
+<p class="study-label">10. Ticconi <span class="year">(2020)</span></p>
+<blockquote>In our study, women with RPL had an increased risk of fetal growth restriction and intrauterine fetal demise compared to control women. These findings are in accordance, although to a variable extent, with many of the studied previously carried out. However, several other studies could not demonstrate the above associations with RPL.</blockquote>
+
+<p class="study-label">11. Jinwen Zhang <span class="year">(2023)</span></p>
+<blockquote>Consistent with our results, a previous study confirmed that regardless of the cause of RM, this group represents a high-risk obstetric population for placental dysfunction disorders including preterm labor and small for gestational age.</blockquote>
+
+<p class="study-label">12. Sugiura-Ogasawara <span class="year">(2020)</span></p>
+<blockquote>The present study revealed no risk of a congenital anomaly, aneuploidy, neonatal asphyxia, or SFD related to RPL.</blockquote>
+<blockquote>The supplementary analysis including participants for the second or third time revealed increased risk of PTB &lt;37 weeks' gestation, oligohydramnios, abruptio placenta, and LBW.</blockquote>
+<blockquote>A recent retrospective study comparing 2030 patients with RM and 28 023 participants with no RM showed an increased risk of PTB and perinatal death after adjustment of covariates but no significantly increased risk of LBW, low Apgar score, congenital anomalies, or aneuploidy.</blockquote>
+
+<div class="no-discussion">
+<strong>Papers with no LBW/SGA/IUGR discussion:</strong>
+Ausbeck (2021), Nasloon Ali (2020)
+</div>
+
+<a class="top-link" href="#toc">&uarr; Back to contents</a>
+
+<!-- ═══════════════════════════════════════════════════════════
+     F.  PRETERM  BIRTH
+     ═══════════════════════════════════════════════════════════ -->
+<h2 id="sec-f">F. Preterm Birth</h2>
+
+<p class="study-label">1. Thom <span class="year">(1992)</span></p>
+<blockquote>The current study found only a slightly elevated adjusted relative risk of 1.2 (95% confidence interval = 0.9 to 1.4) for preterm birth in women with one prior spontaneous abortion but an adjusted relative risk of 1.5 (95% confidence interval = 1.1 to 2.1) for women with three or more prior spontaneous abortions. These results are similar to results reported from previous studies.</blockquote>
+
+<p class="study-label">2. Jivraj <span class="year">(2001)</span></p>
+<blockquote>We found that the preterm delivery, small-for-gestational-age, Caesarean section and perinatal mortality rates in women with recurrent miscarriages were higher than those of the control population</blockquote>
+<blockquote>the primary miscarriage group appeared to have a higher preterm delivery rate (18%) than the secondary miscarriage group (7.7%).</blockquote>
+<blockquote>it is associated with a higher incidence of small-for-gestational-age babies, preterm delivery, Caesarean section rate and perinatal loss.</blockquote>
+
+<p class="study-label">3. TC Li <span class="year">(2002)</span></p>
+<blockquote>Women with a history of RM are at higher risk of several adverse obstetric and perinatal outcomes including preterm labour, Caesarean section, small for gestational age, and perinatal death.</blockquote>
+<blockquote>A history of RM has been reported to associate with preterm delivery, perinatal death, and delivery by Caesarean section, but the sample size of the study was small.</blockquote>
+
+<p class="study-label">4. Ausbeck <span class="year">(2021)</span></p>
+<blockquote>In this retrospective cohort, the study found that women with a history of two or more consecutive SABs did not have an increased risk of PTB &lt; 37 weeks in a subsequent pregnancy.</blockquote>
+<blockquote>Results of prior studies are inconsistent regarding the link between RPL and adverse perinatal outcomes. Reginald et al (1987) showed increased rates of preterm delivery, small for gestational age, and perinatal mortality. Jivraj et al (2001) also found increased rates of PTB, small for gestational age neonates, and perinatal loss, as well as an increased rate of cesarean delivery.</blockquote>
+<blockquote>the large sample size and detailed data available regarding these comorbidities enabled the researchers to adjust for these confounding variables, and after adjusting, an apparent increase in the risk of PTB in women with RPL was no longer present.</blockquote>
+<blockquote>An important difference between the present study and the above studies is that all of the above included women who had three or more prior pregnancy losses.</blockquote>
+<blockquote>A study by Shapira et al is one of these few studies. In this analysis, they compared women who had primary RPL with women who had secondary RPL, finding that women with primary RPL had a higher incidence of adverse perinatal outcomes, including PTB, gestational diabetes, and fetal growth abnormalities.</blockquote>
+
+<p class="study-label">5. Mona Fawzy <span class="year">(2014)</span></p>
+<blockquote>Results of this analysis showed that the study group still had an increased risk of a number of complications namely PIH, preterm delivery and admission to SCBU.</blockquote>
+<blockquote>We found no significant difference between primary and secondary miscarriage groups and both were found to be at increased risk of significant foetal and maternal complications. These findings are slightly different from our original series (Jivraj et al., 2001) where women with secondary miscarriage had a lower risk of PTL compared to their primary miscarriage counterparts. This could be explained by the fact that the current study includes a significantly larger cohort of patients.</blockquote>
+<blockquote>Results remained consistent and showed an increased risk of unspecified APH, PTL, SGA and low Apgar scores.</blockquote>
+
+<p class="study-label">6. Gunnarsdottir <span class="year">(2014)</span></p>
+<blockquote>prior miscarriages were associated with increased risks of the placental dysfunction disorders preeclampsia, stillbirth, SGA birth, placental abruption, and spontaneous preterm birth. The associations were strongest for 3 or more prior miscarriages and seemed stronger for preterm placental dysfunction disorders compared with term disorders.</blockquote>
+<blockquote>A dose-response relationship was previously shown between prior miscarriages and spontaneous preterm birth, which is in agreement with our finding.</blockquote>
+
+<p class="study-label">7. Rasmark Roepke <span class="year">(2017)</span></p>
+<blockquote>Furthermore, our study identified a higher risk of stillbirth, preterm delivery and SGA birth in RPL women compared with the reference group. This was equally in accordance with several other studies. Additionally, we discovered the strongest association between RPL and extreme preterm delivery (&lt;32 GWs), also reported by others.</blockquote>
+<blockquote>It is well established that aspirin is beneficial in reducing the risk of pre-eclampsia, IUGR, perinatal death and rates of spontaneous preterm birth in women with historical risk factors. Future studies need to evaluate whether prophylactic treatment with aspirin can prevent or decrease the risk of these complications in women with a history of RPL.</blockquote>
+<blockquote>both primary and secondary RPL was associated with an increased risk of premature birth, pre-eclampsia and placental abruption.</blockquote>
+
+<p class="study-label">8. Murphy &amp; Field <span class="year">(2015)</span></p>
+<blockquote>This study reports an increased risk of adverse perinatal outcomes in a subsequent pregnancy for women with a history of three or more miscarriages. Adverse outcomes included preterm birth, very preterm birth and perinatal death, and the associations persisted even after known socio-demographic risk factors were accounted for.</blockquote>
+<blockquote>The increased risk of preterm birth and perinatal death was similar for women with primary and secondary RM, suggesting that any history of three or more miscarriages is relevant, rather than a history of only consecutive pregnancy loss.</blockquote>
+<blockquote>Some studies have reported similar findings to ours with an association between RM and preterm delivery, perinatal death and delivery by Caesarean section, however the numbers included were small with limited attention to confounding factors (Jivraj et al., 2001).</blockquote>
+<blockquote>Our study showed similar perinatal outcomes for women who experienced primary RM and secondary RM... This contrasts with a study by Shapira et al. (2012) who reported a significantly higher incidence of preterm birth in the primary RM group, based on a study size of 420 women.</blockquote>
+
+<p class="study-label">9. Nasloon Ali <span class="year">(2020)</span></p>
+<blockquote>women with a history of RM were twice as likely to undergo cesarean section and deliver prematurely and seven times more likely to deliver before 32 weeks of gestation than women without a history of RM.</blockquote>
+<blockquote>it has been suggested that both pregnancy loss and preterm delivery may be due to genital infections.</blockquote>
+<blockquote>cervical cerclage can also assist in reducing other future negative outcomes, such as placental abruption and preterm labor, which was independently associated with a history of RM in this population.</blockquote>
+
+<p class="study-label">10. Jinwen Zhang <span class="year">(2023)</span></p>
+<blockquote>This study reports an increased risk of adverse obstetric and perinatal outcomes in a subsequent pregnancy for women with a history of RM. Adverse outcomes include placental dysfunction disorders (preterm preeclampsia, and preterm birth), and abnormal placentation (placenta previa and placenta accreta). These associations persisted even after adjusting for potential confounders.</blockquote>
+<blockquote>Here, we distinguished preterm preeclampsia from term preeclampsia, and found that women with a history of RM were likely to have preterm preeclampsia in the next pregnancy.</blockquote>
+<blockquote>Enhanced prenatal assessment and intervention may have the potential to prevent or delay the onset of placental dysfunction disorders in women with a history of RM. Whether these women should be regarded as a high-risk population of preeclampsia or preterm birth which could be benefit from low-dose aspirin prophylactic treatment deserves further investigation.</blockquote>
+
+<p class="study-label">11. Hautam&auml;ki <span class="year">(2024)</span></p>
+<blockquote>In perinatal outcomes, preterm birth, lower birthweight, PROM, and placental problems—reflected in the neonatal period—were more common in the RPL group.</blockquote>
+<blockquote>According to the perinatal statistics, the incidence of preterm birth is 5%–6% of all singleton births in Finland, which is in line with our findings of the control group (5.8%), whereas it was more prevalent in the RPL group (8.9%). History of RPL was also associated with PROM.</blockquote>
+<blockquote>it has been suggested that dysbiosis of vaginal or endometrial microbiome might relate to PROM and preterm birth. However, the exact etiology is still unknown—whether it is a matter of a coincidental, transient pathogen, or a more permanent imbalance of the microbiota in the endometrium.</blockquote>
+<blockquote>we and others have previously shown that dysbiosis of the endometrial microbiome relates to RPL. Microbes may affect the delicate balance of interactions between invading trophoblast and maternal NK cells, as well as other immunological factors regulating placental development, leading to an increased risk of RPL, PROM, and preterm birth. Likely, an infection or dysbiotic microbiota of the reproductive tract is behind some of the preterm births in our study, but we were unable to distinguish the causes of preterm birth or PROM from our register data.</blockquote>
+<blockquote>This is in line with a previous work that found preterm birth, preeclampsia, and placental abruption to associate with both primary and secondary RPL in separate comparisons.</blockquote>
+
+<p class="study-label">12. Sugiura-Ogasawara <span class="year">(2020)</span></p>
+<blockquote>The supplementary analysis including participants for the second or third time revealed increased risk of PTB &lt;37 weeks' gestation, oligohydramnios, abruptio placenta, and LBW.</blockquote>
+<blockquote>A historical study with 732 719 nulliparous women who had a first live birth showed that women with RM were at the greatest risk (adjusted OR 1.73; 95%CI 1.57‐1.90) and the greatest association was with extreme PTB (24‐28 weeks, adjusted OR 3.87; 95%CI, 2.85‐5.26).</blockquote>
+<blockquote>The present study found no association with a PTB &lt;34 weeks or PROM after MIA in contrast with previous studies. Further study with the use of MIA is necessary to confirm this association.</blockquote>
+
+<p class="study-label">13. Jing Yang <span class="year">(2017)</span></p>
+<blockquote>Placenta dysfunctions in different pregnancy stages also indicate different outcomes, such as infertility, spontaneous abortion, RSA, late abortion, spontaneous preterm birth (no rupture of membranes and premature rupture of membranes), PE, and FGR.</blockquote>
+<blockquote>The recent impact on fetuses is an increasing risk of perinatal death, FGR, small for gestational age fetus, and preterm birth.</blockquote>
+
+<p class="study-label">14. Ticconi <span class="year">(2020)</span></p>
+<blockquote>By increasing the number of previous losses, the rates of women who became pregnant decreased, however the rates of women with pregnancy complications have the tendency to increase.</blockquote>
+
+<div class="no-discussion">
+<strong>Papers with no specific preterm birth discussion:</strong>
+Sheiner (2005) — discusses PTB only in the context of the thrombophilia subgroup, not as a main finding.
+</div>
+
+<a class="top-link" href="#toc">&uarr; Back to contents</a>
+
+<!-- ═══════════════════════════════════════════════════════════
+     G.  GESTATIONAL  DIABETES
+     ═══════════════════════════════════════════════════════════ -->
+<h2 id="sec-g">G. Gestational Diabetes</h2>
+
+<!-- ── G-1: GDM alone ─────────────────────────────────────── -->
+<div class="sub-header">Studies that examined gestational diabetes mellitus (GDM) alone</div>
+
+<h3>Studies with discussion passages about GDM</h3>
+
+<p class="study-label">1. Ausbeck <span class="year">(2021)</span></p>
+<h4>Definition: GDM by Carpenter&ndash;Coustan criteria; pregestational diabetes adjusted for as a confounder.</h4>
+<blockquote>In this retrospective cohort, the study found that women with a history of two or more consecutive SABs did not have an increased risk of PTB &lt; 37 weeks in a subsequent pregnancy. However, when compared with women with a history of zero or one previous SAB, women with a history of ≥ 2 consecutive abortions did have an increased risk of having a subsequent pregnancy affected by gestational diabetes. The risks of other maternal and neonatal complications were similar between the two groups.</blockquote>
+<blockquote>Hughes et al showed increased rates of gestational diabetes and chronic hypertension in those with a history of multiple pregnancy losses.</blockquote>
+<blockquote>A study by Shapira et al is one of these few studies. In this analysis, they compared women who had primary RPL with women who had secondary RPL, finding that women with primary RPL had a higher incidence of adverse perinatal outcomes, including PTB, gestational diabetes, and fetal growth abnormalities.</blockquote>
+<blockquote>Multiple comparisons were made, which raises the possibility that the findings in regards to gestational diabetes were due to chance alone.</blockquote>
+<blockquote>Women with a history of ≥ 2 consecutive SABs who have a subsequent pregnancy that reaches at least 20 weeks' gestation do not have an increased risk of preterm delivery &lt; 37 weeks. However, these women may have an increased incidence of gestational diabetes in a subsequent pregnancy. Future studies evaluating this increased risk of gestational diabetes may be warranted.</blockquote>
+
+<p class="study-label">2. Ticconi <span class="year">(2020)</span></p>
+<h4>Definition: GDM per WHO criteria; women with pre-existing diabetes excluded from the study.</h4>
+<blockquote>Similar considerations can be made for gestational diabetes mellitus, preeclampsia, placenta previa and abruptio placentae, conditions for which the association was either found to variable extent or not found at all.</blockquote>
+<blockquote>When the women with RPL were stratified according to the other two major diagnostic categories, primary and secondary RPL, the rates of overall pregnancy complications were similar. However, the analysis carried out by specific complication revealed that the risk of GDM was higher in women with secondary than in women with primary RPL. A possible explanation for this finding could be that women with secondary RPL have been more exposed than women with primary RPL to the well-known diabetogenic effect of pregnancy that is exerted mainly in the second half of pregnancy, making them more susceptible for GDM in a successive pregnancy. This possibility is also supported by recent observation showing the association between high numbers of pregnancies and the increased prevalence of GDM.</blockquote>
+
+<h3>Studies that measured GDM alone but did not discuss it in the text</h3>
+
+<p class="study-label">3. Jinwen Zhang <span class="year">(2023)</span></p>
+<h4>Definition: GDM as a distinct outcome; pregestational "diabetes" adjusted for separately as a confounder. Results showed aRR&nbsp;1.16 (95%&nbsp;CI 1.06&ndash;1.26) overall. No discussion passage specifically interprets the GDM finding.</h4>
+
+<p class="study-label">4. TC Li <span class="year">(2002)</span></p>
+<h4>Definition: "Gestational diabetes" as a measured outcome. Results showed OR&nbsp;1.08 (95%&nbsp;CI 0.92&ndash;1.41), not significant. No discussion passage addresses it.</h4>
+
+<p class="study-label">5. Mona Fawzy <span class="year">(2014)</span></p>
+<h4>Definition: "Gestational diabetes" as a measured outcome. Results showed RR&nbsp;1.24 (95%&nbsp;CI 0.61&ndash;2.50), not significant. No discussion passage addresses it.</h4>
+
+<p class="study-label">6. Nasloon Ali <span class="year">(2020)</span></p>
+<h4>Definition: "Gestational diabetes mellitus" as a measured outcome. Results showed aOR&nbsp;0.69 (95%&nbsp;CI 0.47&ndash;1.02), not significant. No discussion passage specifically addresses GDM.</h4>
+
+<!-- ── G-2: GDM + pregestational reported separately ─────── -->
+<div class="sub-header">Studies that reported GDM and pregestational diabetes separately</div>
+
+<p class="study-label">7. Hautam&auml;ki <span class="year">(2024)</span></p>
+<h4>Definition: Reported by ICD-10 codes — O24 (all diabetes in pregnancy), O24.0&ndash;O24.1 (pre-existing diabetes), O24.4 (GDM). Results: O24 overall RR&nbsp;1.41 (95%&nbsp;CI 1.04&ndash;1.91, p&nbsp;=&nbsp;0.03); O24.4 GDM RR&nbsp;1.42 (95%&nbsp;CI 1.04&ndash;1.95, p&nbsp;=&nbsp;0.03); O24.0&ndash;O24.1 pre-existing RR&nbsp;1.18 (95%&nbsp;CI 0.44&ndash;3.17, NS). After BMI adjustment, GDM became non-significant (RR&nbsp;1.33, 95%&nbsp;CI 0.95&ndash;1.85, p&nbsp;=&nbsp;0.10). No discussion passage specifically addresses the diabetes findings.</h4>
+
+<p class="study-label">8. Sheiner <span class="year">(2005)</span></p>
+<h4>Definition: White classification — "Diabetes mellitus A" (= GDM) and "Diabetes mellitus B&ndash;R" (= pregestational). Both significantly elevated in the recurrent abortion group; combined "Diabetes mellitus" used in multivariate analysis. No discussion passage specifically interprets the diabetes results.</h4>
+
+<!-- ── G-3: GDM + pregestational combined ─────────────────── -->
+<div class="sub-header">Studies that combined GDM and pregestational diabetes together</div>
+
+<p class="study-label">9. Murphy &amp; Field <span class="year">(2015)</span></p>
+<h4>Definition: footnote states "Diabetes includes pre-existing diabetes and gestational diabetes." Not significant in their analysis. No discussion passage about diabetes.</h4>
+
+<!-- ── G-4: No association ────────────────────────────────── -->
+<div class="sub-header">Studies that found no association with diabetes (any type)</div>
+
+<p class="study-label">10. Jivraj <span class="year">(2001)</span></p>
+<h4>Definition: "diabetes" — not further specified.</h4>
+<blockquote>We found that the preterm delivery, small-for-gestational-age, Caesarean section and perinatal mortality rates in women with recurrent miscarriages were higher than those of the control population, although there were no differences in the rates of hypertensive disorders and diabetes between the two groups.</blockquote>
+<blockquote>Whilst two previous studies reported an increased incidence of impaired glucose tolerance (17.0%, Hughes et al., 1991; 22.8%, Tulppala et al., 1993), we were unable to confirm such a finding in our study. Although impaired glucose tolerance may be associated with polycystic ovarian disease (Barbieri et al., 1988) which in turn is associated with recurrent pregnancy loss, another possible explanation put forward by Hughes et al. (1991) of the increased incidence of impaired glucose intolerance is simply a result of observational bias, i.e. with increased surveillance of women with a history of repeated pregnancy loss.</blockquote>
+<blockquote>To conclude, the pregnancy of women with a history of recurrent miscarriage is not associated with an increased risk of hypertension or diabetes.</blockquote>
+
+<!-- ── G-5: Used as confounder only ──────────────────────── -->
+<div class="sub-header">Studies that used diabetes only as a confounder / covariate (not as an outcome)</div>
+
+<p class="study-label">11. Gunnarsdottir <span class="year">(2014)</span></p>
+<h4>Pregestational diabetes adjusted for as a confounder. GDM was not studied as an outcome.</h4>
+
+<p class="study-label">12. Rasmark Roepke <span class="year">(2017)</span></p>
+<h4>Pre-gestational diabetes adjusted for as a confounder. GDM was not studied as an outcome.</h4>
+
+<p class="study-label">13. Sugiura-Ogasawara <span class="year">(2020)</span></p>
+<h4>Gestational diabetes used as a covariate in propensity score adjustment (Models III and IV). Not studied as an outcome.</h4>
+
+<p class="study-label">14. Jing Yang <span class="year">(2017)</span></p>
+<h4>Did not study GDM as an outcome.</h4>
+
+<p class="study-label">15. Thom <span class="year">(1992)</span></p>
+<h4>Did not study diabetes as an outcome.</h4>
+
+<!-- ── G summary table ───────────────────────────────────── -->
+<h3 style="margin-top:28px;">Summary Table</h3>
+<table class="summary">
+<thead>
+<tr>
+  <th>Study</th>
+  <th>GDM Definition</th>
+  <th>Association Found</th>
+  <th>Key Discussion Finding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Ausbeck (2021)</td>
+  <td>GDM alone (Carpenter&ndash;Coustan)</td>
+  <td>Yes (AOR 1.69, 95% CI 1.10&ndash;2.59)</td>
+  <td>"may have an increased incidence of gestational diabetes" — but notes multiple comparisons caveat</td>
+</tr>
+<tr>
+  <td>Ticconi (2020)</td>
+  <td>GDM alone (WHO); pre-existing excluded</td>
+  <td>Higher in secondary vs. primary RPL</td>
+  <td>GDM risk higher in secondary RPL due to "diabetogenic effect of pregnancy"</td>
+</tr>
+<tr>
+  <td>Zhang (2023)</td>
+  <td>GDM alone; pregestational adjusted</td>
+  <td>Yes crude; aRR 1.16 (1.06&ndash;1.26)</td>
+  <td>Not discussed in text</td>
+</tr>
+<tr>
+  <td>Hautam&auml;ki (2024)</td>
+  <td>GDM separated from pre-existing (ICD-10)</td>
+  <td>Crude yes (RR 1.42); after BMI adj. NS</td>
+  <td>Not discussed in text</td>
+</tr>
+<tr>
+  <td>Sheiner (2005)</td>
+  <td>Separated (White A vs B&ndash;R)</td>
+  <td>Both significantly elevated</td>
+  <td>Not discussed in text</td>
+</tr>
+<tr>
+  <td>Murphy &amp; Field (2015)</td>
+  <td>Combined GDM + pregestational</td>
+  <td>Not significant</td>
+  <td>Not discussed in text</td>
+</tr>
+<tr>
+  <td>Jivraj (2001)</td>
+  <td>"Diabetes" — unspecified</td>
+  <td>No association</td>
+  <td>"not associated with an increased risk of... diabetes"; possible observation bias</td>
+</tr>
+<tr>
+  <td>TC Li (2002)</td>
+  <td>GDM alone</td>
+  <td>No (OR 1.08, NS)</td>
+  <td>Not discussed in text</td>
+</tr>
+<tr>
+  <td>Mona Fawzy (2014)</td>
+  <td>GDM alone</td>
+  <td>No (RR 1.24, NS)</td>
+  <td>Not discussed in text</td>
+</tr>
+<tr>
+  <td>Nasloon Ali (2020)</td>
+  <td>GDM alone</td>
+  <td>No (aOR 0.69, NS)</td>
+  <td>Not discussed in text</td>
+</tr>
+</tbody>
+</table>
+
+<a class="top-link" href="#toc">&uarr; Back to contents</a>
+
+</body>
+</html>
